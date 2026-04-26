@@ -7,7 +7,7 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-// Mock both stages before importing pipeline
+// Mock all stages before importing pipeline
 vi.mock('../src/stages/01-classify', () => ({
   classifyIntent: vi.fn(),
 }));
@@ -16,14 +16,26 @@ vi.mock('../src/stages/02-infer-schema', () => ({
   inferSchema: vi.fn(),
 }));
 
+vi.mock('../src/stages/03-generate', () => ({
+  generateAppSchema: vi.fn(),
+}));
+
+vi.mock('../src/stages/04-validate', () => ({
+  validateAppSchema: vi.fn(),
+}));
+
 import { executePipeline, executePreview } from '../src/pipeline';
 import { classifyIntent } from '../src/stages/01-classify';
 import { inferSchema } from '../src/stages/02-infer-schema';
+import { generateAppSchema } from '../src/stages/03-generate';
+import { validateAppSchema } from '../src/stages/04-validate';
 import type { PipelineInput } from '../src/types/pipeline.types';
 import { classificationError, schemaInferenceError } from '../src/errors';
 
 const mockedClassify = vi.mocked(classifyIntent);
 const mockedInfer = vi.mocked(inferSchema);
+const mockedGenerate = vi.mocked(generateAppSchema);
+const mockedValidate = vi.mocked(validateAppSchema);
 
 const BASE_INPUT: PipelineInput = {
   userPrompt: 'Dashboard des ventes',
@@ -73,25 +85,72 @@ function mockInferSuccess() {
   });
 }
 
+function mockGenerateSuccess(archetype = 'dashboard') {
+  mockedGenerate.mockResolvedValueOnce({
+    ok: true,
+    value: {
+      schema: {
+        name: 'Test App',
+        archetype: archetype as 'dashboard',
+        layout: { type: 'single_page', columns: 2 },
+        components: [
+          { id: 'kpi_1', type: 'kpi_card', props: { title: 'KPI' }, position: { row: 0, col: 0 } },
+        ],
+        dataBindings: [
+          { id: 'bind_1', sourceId: 's1', field: 'montant', transform: 'sum' },
+        ],
+      },
+      costEur: 0.018,
+    },
+  });
+}
+
+function mockValidateSuccess(archetype = 'dashboard') {
+  mockedValidate.mockReturnValueOnce({
+    ok: true,
+    value: {
+      schema: {
+        name: 'Test App',
+        archetype: archetype as 'dashboard',
+        layout: { type: 'single_page', columns: 2 },
+        components: [
+          { id: 'kpi_1', type: 'kpi_card', props: { title: 'KPI' }, position: { row: 0, col: 0 } },
+        ],
+        dataBindings: [
+          { id: 'bind_1', sourceId: 's1', field: 'montant', transform: 'sum' },
+        ],
+        __validated: true,
+      } as never,
+      corrections: [],
+    },
+  });
+}
+
 describe('executePipeline', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('executes stages 1+2 sequentially on success', async () => {
+  it('executes all 4 stages sequentially on success', async () => {
     mockClassifySuccess();
     mockInferSuccess();
+    mockGenerateSuccess();
+    mockValidateSuccess();
 
     const result = await executePipeline(INPUT_WITH_EXCEL, CONFIG);
 
     expect(result.ok).toBe(true);
     expect(mockedClassify).toHaveBeenCalledTimes(1);
     expect(mockedInfer).toHaveBeenCalledTimes(1);
+    expect(mockedGenerate).toHaveBeenCalledTimes(1);
+    expect(mockedValidate).toHaveBeenCalledTimes(1);
   });
 
   it('returns PipelineOutput with appSchema on success', async () => {
     mockClassifySuccess('report', 0.85);
     mockInferSuccess();
+    mockGenerateSuccess('report');
+    mockValidateSuccess('report');
 
     const result = await executePipeline(INPUT_WITH_EXCEL, CONFIG);
 
@@ -105,22 +164,30 @@ describe('executePipeline', () => {
   it('collects metadata with stage results', async () => {
     mockClassifySuccess();
     mockInferSuccess();
+    mockGenerateSuccess();
+    mockValidateSuccess();
 
     const result = await executePipeline(INPUT_WITH_EXCEL, CONFIG);
 
     expect(result.ok).toBe(true);
     if (result.ok) {
-      expect(result.value.metadata.stages).toHaveLength(2);
+      expect(result.value.metadata.stages).toHaveLength(4);
       expect(result.value.metadata.stages[0]?.stage).toBe(1);
       expect(result.value.metadata.stages[0]?.status).toBe('success');
       expect(result.value.metadata.stages[1]?.stage).toBe(2);
       expect(result.value.metadata.stages[1]?.status).toBe('success');
+      expect(result.value.metadata.stages[2]?.stage).toBe(3);
+      expect(result.value.metadata.stages[2]?.status).toBe('success');
+      expect(result.value.metadata.stages[3]?.stage).toBe(4);
+      expect(result.value.metadata.stages[3]?.status).toBe('success');
     }
   });
 
   it('tracks totalLatencyMs > 0', async () => {
     mockClassifySuccess();
     mockInferSuccess();
+    mockGenerateSuccess();
+    mockValidateSuccess();
 
     const result = await executePipeline(INPUT_WITH_EXCEL, CONFIG);
 
@@ -130,9 +197,11 @@ describe('executePipeline', () => {
     }
   });
 
-  it('tracks totalCostEur from Stage 1', async () => {
+  it('tracks totalCostEur from Stages 1+3', async () => {
     mockClassifySuccess();
     mockInferSuccess();
+    mockGenerateSuccess();
+    mockValidateSuccess();
 
     const result = await executePipeline(INPUT_WITH_EXCEL, CONFIG);
 
@@ -145,6 +214,8 @@ describe('executePipeline', () => {
   it('Stage 2 cost is 0 (deterministic)', async () => {
     mockClassifySuccess();
     mockInferSuccess();
+    mockGenerateSuccess();
+    mockValidateSuccess();
 
     const result = await executePipeline(INPUT_WITH_EXCEL, CONFIG);
 
@@ -198,6 +269,8 @@ describe('executePipeline', () => {
 
   it('works without Excel data (prompt-only)', async () => {
     mockClassifySuccess('multi_view', 0.5);
+    mockGenerateSuccess('multi_view');
+    mockValidateSuccess('multi_view');
 
     const result = await executePipeline(BASE_INPUT, CONFIG);
 
@@ -209,6 +282,8 @@ describe('executePipeline', () => {
   it('passes Excel preview (first 20 headers) to classifyIntent', async () => {
     mockClassifySuccess();
     mockInferSuccess();
+    mockGenerateSuccess();
+    mockValidateSuccess();
 
     await executePipeline(INPUT_WITH_EXCEL, CONFIG);
 
@@ -222,6 +297,8 @@ describe('executePipeline', () => {
   it('passes archetype from Stage 1 to Stage 2', async () => {
     mockClassifySuccess('tracker', 0.88);
     mockInferSuccess();
+    mockGenerateSuccess('tracker');
+    mockValidateSuccess('tracker');
 
     await executePipeline(INPUT_WITH_EXCEL, CONFIG);
 

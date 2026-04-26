@@ -15,6 +15,8 @@ import type { PipelineInput, PipelineOutput, PipelineMetadata, StageResult, Clas
 import type { PipelineError } from './errors';
 import { classifyIntent } from './stages/01-classify';
 import { inferSchema } from './stages/02-infer-schema';
+import { generateAppSchema } from './stages/03-generate';
+import { validateAppSchema } from './stages/04-validate';
 
 export interface PipelineConfig {
   readonly anthropicApiKey: string;
@@ -88,9 +90,52 @@ export async function executePipeline(
   });
 
   // ═══════════════════════════════════════════════════════════════════
-  // STAGES 3-4: Generation + Validation (added in S04)
-  // For now, return a draft AppSchema from stages 1-2
+  // STAGE 3: Constrained Generation (@NEURON — Claude Sonnet 4)
   // ═══════════════════════════════════════════════════════════════════
+  const stage3Start = Date.now();
+
+  const generateResult = await generateAppSchema(
+    classification,
+    schema,
+    input.userPrompt,
+    config.anthropicApiKey,
+  );
+
+  const stage3Latency = Date.now() - stage3Start;
+
+  if (!generateResult.ok) {
+    stageResults.push({ stage: 3, status: 'error', latencyMs: stage3Latency, costEur: 0 });
+    return err(generateResult.error);
+  }
+
+  stageResults.push({
+    stage: 3,
+    status: 'success',
+    latencyMs: stage3Latency,
+    costEur: generateResult.value.costEur,
+  });
+
+  // ═══════════════════════════════════════════════════════════════════
+  // STAGE 4: 3-Pass Validation (@NEURON + @PHANTOM)
+  // ═══════════════════════════════════════════════════════════════════
+  const stage4Start = Date.now();
+
+  const sourceColumns = schema.columns.map((c) => c.name);
+  const validateResult = validateAppSchema(generateResult.value.schema, sourceColumns);
+
+  const stage4Latency = Date.now() - stage4Start;
+
+  if (!validateResult.ok) {
+    stageResults.push({ stage: 4, status: 'error', latencyMs: stage4Latency, costEur: 0 });
+    return err(validateResult.error);
+  }
+
+  stageResults.push({
+    stage: 4,
+    status: 'success',
+    latencyMs: stage4Latency,
+    costEur: 0,
+  });
 
   const totalLatencyMs = Date.now() - pipelineStart;
   const totalCostEur = stageResults.reduce((sum, s) => sum + s.costEur, 0);
@@ -103,11 +148,11 @@ export async function executePipeline(
 
   const appSchema = {
     id: '',
-    name: input.userPrompt.slice(0, 100),
-    archetype: classification.archetype,
-    layout: { type: 'single_page' as const, columns: schema.columns.length > 5 ? 2 : 1 },
-    components: [],
-    dataBindings: [],
+    name: validateResult.value.schema.name,
+    archetype: validateResult.value.schema.archetype,
+    layout: validateResult.value.schema.layout,
+    components: validateResult.value.schema.components,
+    dataBindings: validateResult.value.schema.dataBindings,
   };
 
   return ok({ appSchema, metadata });

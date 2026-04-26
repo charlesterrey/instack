@@ -7,6 +7,23 @@ export type { PipelineConfig } from './pipeline';
 // Individual stages
 export { classifyIntent } from './stages/01-classify';
 export { inferSchema } from './stages/02-infer-schema';
+export { generateAppSchema } from './stages/03-generate';
+export type { GenerateResult } from './stages/03-generate';
+export { validateAppSchema } from './stages/04-validate';
+export type { ValidationResult } from './stages/04-validate';
+
+// Validators
+export { validateSchema } from './validators/schema.validator';
+export { validateLayout } from './validators/layout.validator';
+export { validateSecurity } from './validators/security.validator';
+export type { SecurityViolation, SecurityValidationResult } from './validators/security.validator';
+
+// Schemas
+export { generatedAppSchema, brandAsValidated, PHASE_A_COMPONENT_TYPES } from './schemas/generate.schema';
+export type { GeneratedAppSchema, GeneratedComponent, GeneratedDataBinding, ValidatedAppSchema } from './schemas/generate.schema';
+
+// Prompts
+export { CREATE_APP_TOOL_DEFINITION, buildGenerateUserMessage } from './prompts/generate.prompt';
 
 // Excel parser
 export { parseExcelBuffer, parseCSVString } from './lib/excel-parser';

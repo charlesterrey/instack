@@ -3,6 +3,9 @@
  * POST /api/generate/classify — Stage 1 only
  * POST /api/generate/infer-schema — Stage 2 only (with file upload)
  * POST /api/generate/preview — Stages 1+2 combined
+ * POST /api/generate/full — Full pipeline (stages 1-4)
+ * POST /api/generate/retry — Retry a failed generation
+ * GET  /api/generate/render/:appId — Get render-ready schema
  *
  * @PHANTOM review: no token in responses, file upload validated, rate limited
  */
@@ -10,7 +13,7 @@
 import { Hono } from 'hono';
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
-import { classifyIntent, inferSchema, parseExcelBuffer, executePreview } from '@instack/ai-pipeline';
+import { classifyIntent, inferSchema, parseExcelBuffer, executePreview, executePipeline } from '@instack/ai-pipeline';
 
 const classifyBodySchema = z.object({
   prompt: z.string().min(1).max(2000),
@@ -18,6 +21,17 @@ const classifyBodySchema = z.object({
 
 const previewBodySchema = z.object({
   prompt: z.string().min(1).max(2000),
+  dataSourceId: z.string().uuid().optional(),
+});
+
+const generateFullBodySchema = z.object({
+  prompt: z.string().min(1).max(2000),
+  dataSourceId: z.string().uuid().optional(),
+});
+
+const retryBodySchema = z.object({
+  prompt: z.string().min(1).max(2000),
+  previousError: z.string().optional(),
   dataSourceId: z.string().uuid().optional(),
 });
 
@@ -129,3 +143,101 @@ generationRoutes.post(
     return c.json({ data: result.value });
   },
 );
+
+// POST /api/generate/full — Run full pipeline (stages 1-4)
+generationRoutes.post(
+  '/full',
+  zValidator('json', generateFullBodySchema),
+  async (c) => {
+    const auth = c.get('auth');
+    const { prompt } = c.req.valid('json');
+    const apiKey = (c.env as Record<string, unknown>)['ANTHROPIC_API_KEY'];
+
+    if (typeof apiKey !== 'string') {
+      return c.json({ error: { message: 'AI pipeline not configured', status: 500 } }, 500);
+    }
+
+    const result = await executePipeline(
+      { userPrompt: prompt, tenantId: auth.tenantId, userId: auth.userId },
+      { anthropicApiKey: apiKey },
+    );
+
+    if (!result.ok) {
+      const status = result.error.recoverable ? 422 : 500;
+      return c.json({
+        error: {
+          message: result.error.message,
+          code: result.error.code,
+          stage: result.error.stage,
+          recoverable: result.error.recoverable,
+          status,
+        },
+      }, status);
+    }
+
+    return c.json({
+      data: {
+        appSchema: result.value.appSchema,
+        metadata: result.value.metadata,
+      },
+    });
+  },
+);
+
+// POST /api/generate/retry — Retry a failed generation
+generationRoutes.post(
+  '/retry',
+  zValidator('json', retryBodySchema),
+  async (c) => {
+    const auth = c.get('auth');
+    const { prompt } = c.req.valid('json');
+    const apiKey = (c.env as Record<string, unknown>)['ANTHROPIC_API_KEY'];
+
+    if (typeof apiKey !== 'string') {
+      return c.json({ error: { message: 'AI pipeline not configured', status: 500 } }, 500);
+    }
+
+    const result = await executePipeline(
+      { userPrompt: prompt, tenantId: auth.tenantId, userId: auth.userId },
+      { anthropicApiKey: apiKey },
+    );
+
+    if (!result.ok) {
+      const status = result.error.recoverable ? 422 : 500;
+      return c.json({
+        error: {
+          message: result.error.message,
+          code: result.error.code,
+          stage: result.error.stage,
+          recoverable: result.error.recoverable,
+          status,
+        },
+      }, status);
+    }
+
+    return c.json({
+      data: {
+        appSchema: result.value.appSchema,
+        metadata: result.value.metadata,
+      },
+    });
+  },
+);
+
+// GET /api/generate/render/:appId — Get render-ready schema for an app
+generationRoutes.get('/render/:appId', async (c) => {
+  const appId = c.req.param('appId');
+
+  if (!appId) {
+    return c.json({ error: { message: 'App ID is required', status: 400 } }, 400);
+  }
+
+  // TODO: In production, fetch from DB via app.repository
+  // For now, return a placeholder that signals the client to use the stored schema
+  return c.json({
+    data: {
+      appId,
+      message: 'Use the app schema from the generation response or fetch from /api/apps/:id',
+    },
+  });
+});
