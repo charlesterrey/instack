@@ -1,5 +1,7 @@
 import { LoginPage } from './pages/Login/Login';
 import { DashboardPage } from './pages/Dashboard/Dashboard';
+import { AppListPage } from './pages/Apps/AppList';
+import { AppDetailPage } from './pages/Apps/AppDetail';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 function getRoute(): string {
@@ -13,9 +15,14 @@ export function App() {
     return <LoginPage />;
   }
 
-  return (
-    <ProtectedRoute>
-      <DashboardPage />
-    </ProtectedRoute>
-  );
+  let page;
+  if (route === '/apps') {
+    page = <AppListPage />;
+  } else if (route.startsWith('/apps/')) {
+    page = <AppDetailPage />;
+  } else {
+    page = <DashboardPage />;
+  }
+
+  return <ProtectedRoute>{page}</ProtectedRoute>;
 }

@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { secureHeaders } from 'hono/secure-headers';
 import { errorHandler } from './middleware/error.middleware';
+import { cspMiddleware } from './middleware/csp.middleware';
 import { authMiddleware } from './middleware/auth.middleware';
 import { tenantMiddleware } from './middleware/tenant.middleware';
 import { rateLimitMiddleware } from './middleware/rate-limit.middleware';
@@ -31,14 +31,13 @@ interface Bindings {
 
 const app = new Hono<{ Bindings: Bindings }>();
 
-// Global middleware
+// Global middleware — CORS + CSP on ALL responses
 app.use('*', cors({
   origin: (origin) => {
     const allowed = ['http://localhost:5173', 'https://app.instack.io'];
     if (allowed.includes(origin)) {
       return origin;
     }
-    // Allow *.instack.io subdomains
     if (origin.endsWith('.instack.io')) {
       return origin;
     }
@@ -50,20 +49,7 @@ app.use('*', cors({
   maxAge: 86400,
 }));
 
-app.use('*', secureHeaders({
-  contentSecurityPolicy: {
-    defaultSrc: ["'self'"],
-    scriptSrc: ["'self'"],
-    styleSrc: ["'self'", "'unsafe-inline'"],
-    imgSrc: ["'self'", 'data:', 'https:'],
-    connectSrc: ["'self'", 'https://graph.microsoft.com', 'https://api.anthropic.com'],
-    frameAncestors: ["'none'"],
-    formAction: ["'self'"],
-  },
-  xFrameOptions: 'DENY',
-  xContentTypeOptions: 'nosniff',
-  referrerPolicy: 'strict-origin-when-cross-origin',
-}));
+app.use('*', cspMiddleware);
 
 // Error handler — never leak stack traces
 app.onError(errorHandler);
@@ -82,10 +68,12 @@ app.get('/health', (c) => {
 // Auth routes (no auth middleware — these handle login/callback)
 app.route('/api/auth', authRoutes);
 
-// Protected routes — require auth + tenant isolation + rate limiting
+// Protected routes — auth check first (no DB needed)
 app.use('/api/*', authMiddleware);
-app.use('/api/*', tenantMiddleware);
 app.use('/api/*', rateLimitMiddleware);
+
+// DB-dependent routes — tenant middleware creates DB connection + RLS
+app.use('/api/*', tenantMiddleware);
 
 app.route('/api/apps', appsRoutes);
 app.route('/api/users', usersRoutes);

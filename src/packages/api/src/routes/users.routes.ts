@@ -3,10 +3,13 @@ import { zValidator } from '@hono/zod-validator';
 import { updateUserRoleSchema } from '@instack/shared';
 import { users } from '../../drizzle/schema';
 import { eq } from 'drizzle-orm';
-import { requireAdmin } from '../middleware/auth.middleware';
 import { logAudit } from '../services/audit.service';
 
 export const usersRoutes = new Hono();
+
+function isAdmin(c: { get: (key: 'auth') => { role: string } }): boolean {
+  return c.get('auth').role === 'admin';
+}
 
 // GET /api/users/me — Current user profile
 usersRoutes.get('/me', async (c) => {
@@ -36,7 +39,11 @@ usersRoutes.get('/me', async (c) => {
 });
 
 // GET /api/users — List tenant users (admin only)
-usersRoutes.get('/', requireAdmin, async (c) => {
+usersRoutes.get('/', async (c) => {
+  if (!isAdmin(c)) {
+    return c.json({ error: { message: 'Admin access required', status: 403 } }, 403);
+  }
+
   const db = c.get('db');
 
   const rows = await db
@@ -56,9 +63,12 @@ usersRoutes.get('/', requireAdmin, async (c) => {
 // PATCH /api/users/:id/role — Change user role (admin only)
 usersRoutes.patch(
   '/:id/role',
-  requireAdmin,
   zValidator('json', updateUserRoleSchema),
   async (c) => {
+    if (!isAdmin(c)) {
+      return c.json({ error: { message: 'Admin access required', status: 403 } }, 403);
+    }
+
     const auth = c.get('auth');
     const db = c.get('db');
     const userId = c.req.param('id');

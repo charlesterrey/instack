@@ -3,10 +3,13 @@ import { zValidator } from '@hono/zod-validator';
 import { updateTenantSettingsSchema } from '@instack/shared';
 import { tenants, users, apps } from '../../drizzle/schema';
 import { eq, count, and } from 'drizzle-orm';
-import { requireAdmin } from '../middleware/auth.middleware';
 import { logAudit } from '../services/audit.service';
 
 export const tenantsRoutes = new Hono();
+
+function isAdmin(c: { get: (key: 'auth') => { role: string } }): boolean {
+  return c.get('auth').role === 'admin';
+}
 
 // GET /api/tenants/me — Current tenant info
 tenantsRoutes.get('/me', async (c) => {
@@ -36,14 +39,16 @@ tenantsRoutes.get('/me', async (c) => {
 // PATCH /api/tenants/me — Update tenant settings (admin only)
 tenantsRoutes.patch(
   '/me',
-  requireAdmin,
   zValidator('json', updateTenantSettingsSchema),
   async (c) => {
+    if (!isAdmin(c)) {
+      return c.json({ error: { message: 'Admin access required', status: 403 } }, 403);
+    }
+
     const auth = c.get('auth');
     const db = c.get('db');
     const settings = c.req.valid('json');
 
-    // Merge with existing settings
     const existing = await db
       .select({ settings: tenants.settings })
       .from(tenants)
