@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>instack — Prompt Ops Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   UNTITLED UI DESIGN TOKENS — Tailwind-style
+   ============================================ */
+:root {
+  /* Brand */
+  --brand-25: #F5F8FF; --brand-50: #EFF4FF; --brand-100: #D1E0FF;
+  --brand-200: #B2CCFF; --brand-300: #84ADFF; --brand-400: #528BFF;
+  --brand-500: #2970FF; --brand-600: #155EEF; --brand-700: #004EEB;
+  --brand-800: #0040C1; --brand-900: #00359E;
+  /* Gray */
+  --gray-25: #FCFCFD; --gray-50: #F9FAFB; --gray-100: #F2F4F7;
+  --gray-200: #EAECF0; --gray-300: #D0D5DD; --gray-400: #98A2B3;
+  --gray-500: #667085; --gray-600: #475467; --gray-700: #344054;
+  --gray-800: #182230; --gray-900: #101828; --gray-950: #0C111D;
+  /* Success */
+  --success-25: #F6FEF9; --success-50: #ECFDF3; --success-100: #DCFAE6;
+  --success-300: #75E0A7; --success-500: #17B26A; --success-600: #079455; --success-700: #067647;
+  /* Warning */
+  --warning-25: #FFFCF5; --warning-50: #FFFAEB; --warning-300: #FEC84B;
+  --warning-500: #F79009; --warning-600: #DC6803; --warning-700: #B54708;
+  /* Error */
+  --error-25: #FFFBFA; --error-50: #FEF3F2; --error-300: #FDA29B;
+  --error-500: #F04438; --error-600: #D92D20; --error-700: #B42318;
+  /* Shadows */
+  --shadow-xs: 0px 1px 2px rgba(16,24,40,0.05);
+  --shadow-sm: 0px 1px 3px rgba(16,24,40,0.1), 0px 1px 2px rgba(16,24,40,0.06);
+  --shadow-md: 0px 4px 8px -2px rgba(16,24,40,0.1), 0px 2px 4px -2px rgba(16,24,40,0.06);
+  --shadow-lg: 0px 12px 16px -4px rgba(16,24,40,0.08), 0px 4px 6px -2px rgba(16,24,40,0.03);
+  /* Radius */
+  --radius-sm: 6px; --radius-md: 8px; --radius-lg: 10px; --radius-xl: 12px; --radius-2xl: 16px;
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--gray-50);
+  color: var(--gray-900);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================
+   LAYOUT
+   ============================================ */
+.app { display: flex; flex-direction: column; min-height: 100vh; }
+.header {
+  background: white;
+  border-bottom: 1px solid var(--gray-200);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: var(--shadow-xs);
+}
+.header-left { display: flex; align-items: center; gap: 16px; }
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--brand-600);
+  letter-spacing: -0.5px;
+}
+.logo span { color: var(--gray-400); font-weight: 400; font-size: 14px; margin-left: 4px; }
+.header-actions { display: flex; gap: 8px; }
+
+.main { display: flex; flex: 1; }
+.sidebar {
+  width: 260px;
+  background: white;
+  border-right: 1px solid var(--gray-200);
+  padding: 16px 0;
+  overflow-y: auto;
+  position: sticky;
+  top: 65px;
+  height: calc(100vh - 65px);
+}
+.content { flex: 1; padding: 24px; overflow-y: auto; max-width: 1200px; }
+
+/* ============================================
+   NAV
+   ============================================ */
+.nav-section { padding: 0 12px; margin-bottom: 8px; }
+.nav-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--gray-400);
+  padding: 8px 12px 4px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-600);
+  transition: all 0.15s;
+  margin: 1px 0;
+}
+.nav-item:hover { background: var(--gray-50); color: var(--gray-900); }
+.nav-item.active { background: var(--brand-50); color: var(--brand-700); }
+.nav-item .status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.nav-item .progress-mini {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--gray-400);
+  font-weight: 600;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.btn-primary { background: var(--brand-600); color: white; }
+.btn-primary:hover { background: var(--brand-700); }
+.btn-secondary { background: white; color: var(--gray-700); border-color: var(--gray-300); }
+.btn-secondary:hover { background: var(--gray-50); }
+.btn-sm { padding: 6px 10px; font-size: 12px; }
+.btn-ghost { background: transparent; color: var(--gray-500); }
+.btn-ghost:hover { background: var(--gray-100); color: var(--gray-700); }
+.btn-success { background: var(--success-600); color: white; }
+.btn-success:hover { background: var(--success-700); }
+.btn-warning { background: var(--warning-600); color: white; }
+.btn-warning:hover { background: var(--warning-700); }
+.btn-error { background: var(--error-600); color: white; }
+.btn-error:hover { background: var(--error-700); }
+
+/* ============================================
+   KPI CARDS
+   ============================================ */
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.kpi-card {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  box-shadow: var(--shadow-xs);
+}
+.kpi-label { font-size: 13px; color: var(--gray-500); font-weight: 500; margin-bottom: 8px; }
+.kpi-value { font-size: 28px; font-weight: 700; color: var(--gray-900); letter-spacing: -1px; }
+.kpi-sub { font-size: 12px; color: var(--gray-400); margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+.kpi-sub.up { color: var(--success-600); }
+.kpi-sub.down { color: var(--error-600); }
+
+/* ============================================
+   PHASE PROGRESS BARS
+   ============================================ */
+.phase-section { margin-bottom: 24px; }
+.phase-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.phase-title { font-size: 15px; font-weight: 600; color: var(--gray-800); }
+.phase-pct { font-size: 13px; font-weight: 600; color: var(--brand-600); }
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--gray-100);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+  background: linear-gradient(90deg, var(--brand-500), var(--brand-600));
+}
+
+/* ============================================
+   SPRINT CARDS GRID
+   ============================================ */
+.sprint-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.sprint-card {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-xs);
+  position: relative;
+}
+.sprint-card:hover { border-color: var(--brand-300); box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.sprint-card.active { border-color: var(--brand-500); box-shadow: 0 0 0 3px var(--brand-100); }
+.sprint-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.sprint-id { font-size: 12px; font-weight: 700; color: var(--brand-600); }
+.sprint-weeks { font-size: 11px; color: var(--gray-400); font-weight: 500; }
+.sprint-name { font-size: 14px; font-weight: 600; color: var(--gray-800); margin-bottom: 8px; line-height: 1.3; }
+.sprint-leads { font-size: 11px; color: var(--gray-400); margin-bottom: 10px; }
+.sprint-progress-row { display: flex; align-items: center; gap: 8px; }
+.sprint-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--gray-100);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.sprint-progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+.sprint-progress-label { font-size: 11px; font-weight: 600; min-width: 32px; text-align: right; }
+
+/* ============================================
+   TASK LIST (Sprint Detail)
+   ============================================ */
+.detail-panel {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.detail-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.detail-title { font-size: 18px; font-weight: 700; color: var(--gray-900); }
+.detail-meta { font-size: 12px; color: var(--gray-500); }
+.detail-deps {
+  padding: 12px 24px;
+  background: var(--gray-25);
+  border-bottom: 1px solid var(--gray-100);
+  font-size: 12px;
+  color: var(--gray-500);
+  display: flex;
+  gap: 24px;
+}
+.dep-label { font-weight: 600; color: var(--gray-600); }
+.dep-tag {
+  display: inline-flex;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  margin: 0 2px;
+}
+.dep-tag.blocker { background: var(--error-50); color: var(--error-700); }
+.dep-tag.blocks { background: var(--warning-50); color: var(--warning-700); }
+
+.task-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--gray-100);
+  transition: background 0.1s;
+}
+.task-row:hover { background: var(--gray-25); }
+.task-row:last-child { border-bottom: none; }
+
+.task-status-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--gray-300);
+  background: white;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.15s;
+  margin-top: 2px;
+}
+.task-status-btn:hover { border-color: var(--brand-400); }
+.task-status-btn.not_started { border-color: var(--gray-300); background: white; }
+.task-status-btn.in_progress { border-color: var(--brand-500); background: var(--brand-50); color: var(--brand-600); }
+.task-status-btn.blocked { border-color: var(--error-500); background: var(--error-50); color: var(--error-600); }
+.task-status-btn.completed { border-color: var(--success-500); background: var(--success-500); color: white; }
+
+.task-content { flex: 1; min-width: 0; }
+.task-name-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.task-id { font-size: 11px; font-weight: 700; color: var(--gray-400); font-variant-numeric: tabular-nums; }
+.task-name { font-size: 13px; font-weight: 600; color: var(--gray-800); }
+.task-meta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.task-assignee { font-size: 11px; color: var(--brand-600); font-weight: 600; }
+.task-complexity {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--gray-100);
+  color: var(--gray-600);
+}
+.task-complexity.XL, .task-complexity.XXL { background: var(--warning-50); color: var(--warning-700); }
+
+.task-notes {
+  margin-top: 6px;
+}
+.task-notes textarea {
+  width: 100%;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font-size: 12px;
+  font-family: inherit;
+  color: var(--gray-700);
+  resize: vertical;
+  min-height: 32px;
+  background: var(--gray-25);
+  transition: border-color 0.15s;
+}
+.task-notes textarea:focus {
+  outline: none;
+  border-color: var(--brand-400);
+  box-shadow: 0 0 0 3px var(--brand-50);
+  background: white;
+}
+.task-notes textarea::placeholder { color: var(--gray-400); }
+
+/* ============================================
+   BADGE / TAG
+   ============================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.badge-blue { background: var(--brand-50); color: var(--brand-700); }
+.badge-green { background: var(--success-50); color: var(--success-700); }
+.badge-orange { background: var(--warning-50); color: var(--warning-700); }
+.badge-red { background: var(--error-50); color: var(--error-700); }
+.badge-gray { background: var(--gray-100); color: var(--gray-600); }
+
+/* ============================================
+   DEPENDENCY MAP
+   ============================================ */
+.dep-map {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  box-shadow: var(--shadow-xs);
+  margin-bottom: 24px;
+}
+.dep-map h3 { font-size: 15px; font-weight: 600; margin-bottom: 16px; }
+.dep-timeline {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+.dep-node {
+  min-width: 80px;
+  padding: 8px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--gray-200);
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.dep-node:hover { border-color: var(--brand-400); }
+.dep-node .dep-sprint-id { font-size: 12px; font-weight: 700; }
+.dep-node .dep-sprint-name { font-size: 9px; color: var(--gray-500); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80px; }
+.dep-arrow { display: flex; align-items: center; color: var(--gray-300); font-size: 16px; flex-shrink: 0; }
+
+/* ============================================
+   FILTERS
+   ============================================ */
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  padding: 6px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--gray-200);
+  background: white;
+  color: var(--gray-600);
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.filter-btn:hover { border-color: var(--brand-300); }
+.filter-btn.active { background: var(--brand-50); border-color: var(--brand-300); color: var(--brand-700); }
+
+/* ============================================
+   MODAL
+   ============================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(16,24,40,0.5);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: white;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+  width: 560px;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.95);
+  transition: transform 0.2s;
+}
+.modal-overlay.open .modal { transform: scale(1); }
+.modal-header { padding: 20px 24px; border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; justify-content: space-between; }
+.modal-title { font-size: 16px; font-weight: 700; }
+.modal-body { padding: 20px 24px; overflow-y: auto; flex: 1; }
+.modal-footer { padding: 16px 24px; border-top: 1px solid var(--gray-200); display: flex; justify-content: flex-end; gap: 8px; }
+
+.json-area {
+  width: 100%;
+  height: 300px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 11px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  resize: vertical;
+  color: var(--gray-800);
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gray-400); }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .sprint-grid { grid-template-columns: 1fr; }
+  .content { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app" id="app"></div>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title">Export / Import</span>
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer" id="modal-footer"></div>
+  </div>
+</div>
+
+<script>
+// ============================================
+// DATA — 16 Sprints, 76 Tasks
+// ============================================
+const INITIAL_DATA = {
+  project: "instack",
+  version: "1.0.0",
+  phases: [
+    {
+      id: "A", name: "Prouver la Magie", weeks: "W1–W16",
+      sprints: [
+        {
+          id: "S01", name: "Foundations", weeks: "W1-W2",
+          leads: ["@NEXUS","@WATCHDOG"], support: ["@CORTEX","@MOSAIC"],
+          blockedBy: [], blocks: ["S02","S03","S05","S06"],
+          tasks: [
+            {id:"1.1", name:"Initialiser le monorepo Turborepo", assignee:"@NEXUS", complexity:"L", notes:""},
+            {id:"1.2", name:"Package @instack/shared — Types & Schemas", assignee:"@NEXUS", complexity:"M", notes:""},
+            {id:"1.3", name:"Schéma PostgreSQL + Migrations Drizzle", assignee:"@NEXUS + @CORTEX", complexity:"XL", notes:""},
+            {id:"1.4", name:"CI/CD Pipeline GitHub Actions", assignee:"@WATCHDOG", complexity:"M", notes:""},
+            {id:"1.5", name:"Design Tokens + Untitled UI init + @instack/ui skeleton", assignee:"@MOSAIC", complexity:"M", notes:""},
+            {id:"1.6", name:"Package @instack/api skeleton (Hono)", assignee:"@NEXUS", complexity:"M", notes:""}
+          ]
+        },
+        {
+          id: "S02", name: "Auth & API", weeks: "W3-W4",
+          leads: ["@FORGE","@PHANTOM"], support: ["@NEXUS","@CONDUIT"],
+          blockedBy: ["S01"], blocks: ["S03","S06","S07"],
+          tasks: [
+            {id:"2.1", name:"OAuth 2.0 Flow avec Microsoft Entra ID", assignee:"@PHANTOM", complexity:"XL", notes:""},
+            {id:"2.2", name:"Token Proxy Pattern", assignee:"@PHANTOM", complexity:"L", notes:""},
+            {id:"2.3", name:"Middleware RLS + Tenant Isolation", assignee:"@FORGE + @PHANTOM", complexity:"L", notes:""},
+            {id:"2.4", name:"Routes CRUD Apps", assignee:"@FORGE", complexity:"L", notes:""},
+            {id:"2.5", name:"Routes CRUD Users & Tenants", assignee:"@FORGE", complexity:"M", notes:""},
+            {id:"2.6", name:"Frontend Auth Flow", assignee:"@PRISM", complexity:"M", notes:""}
+          ]
+        },
+        {
+          id: "S03", name: "Pipeline IA Stages 1-2", weeks: "W5-W6",
+          leads: ["@NEURON","@CONDUIT"], support: ["@PHANTOM","@NEXUS"],
+          blockedBy: ["S01","S02"], blocks: ["S04","S06"],
+          tasks: [
+            {id:"3.1", name:"Orchestrateur Pipeline + Types", assignee:"@NEURON", complexity:"L", notes:""},
+            {id:"3.2", name:"Stage 1 : Intent Classification (Claude Haiku)", assignee:"@NEURON", complexity:"XL", notes:""},
+            {id:"3.3", name:"Stage 2 : Schema Inference (Déterministe)", assignee:"@CONDUIT + @NEURON", complexity:"XL", notes:""},
+            {id:"3.4", name:"Endpoint API Generation (Phase 1-2)", assignee:"@FORGE + @NEURON", complexity:"M", notes:""},
+            {id:"3.5", name:"Accès Graph API pour lire fichiers Excel", assignee:"@CONDUIT", complexity:"L", notes:""}
+          ]
+        },
+        {
+          id: "S04", name: "Pipeline IA Stages 3-4", weeks: "W7-W8",
+          leads: ["@NEURON","@PRISM"], support: ["@PHANTOM","@MOSAIC"],
+          blockedBy: ["S03","S01"], blocks: ["S05","S07","S08"],
+          tasks: [
+            {id:"4.1", name:"Stage 3 : Constrained Generation (Claude Sonnet 4)", assignee:"@NEURON", complexity:"XXL", notes:""},
+            {id:"4.2", name:"Stage 4 : Validation & Sanitization (Déterministe)", assignee:"@NEURON + @PHANTOM", complexity:"L", notes:""},
+            {id:"4.3", name:"AppRenderer (JSON → React)", assignee:"@PRISM", complexity:"XL", notes:""},
+            {id:"4.4", name:"Endpoint Pipeline Complet", assignee:"@FORGE + @NEURON", complexity:"L", notes:""}
+          ]
+        },
+        {
+          id: "S05", name: "6 Composants Atomiques", weeks: "W9-W10",
+          leads: ["@PRISM","@MOSAIC"], support: ["@SPECTRUM","@NEURON"],
+          blockedBy: ["S01","S04"], blocks: ["S07","S08","S10"],
+          tasks: [
+            {id:"5.1", name:"FormField", assignee:"@PRISM", complexity:"XL", notes:""},
+            {id:"5.2", name:"DataTable", assignee:"@PRISM", complexity:"XL", notes:""},
+            {id:"5.3", name:"KPICard", assignee:"@PRISM", complexity:"M", notes:""},
+            {id:"5.4", name:"BarChart", assignee:"@PRISM", complexity:"L", notes:""},
+            {id:"5.5", name:"FilterBar", assignee:"@PRISM", complexity:"M", notes:""},
+            {id:"5.6", name:"Container", assignee:"@PRISM", complexity:"M", notes:""},
+            {id:"5.7", name:"Intégration Composants dans AppRenderer", assignee:"@PRISM", complexity:"L", notes:""}
+          ]
+        },
+        {
+          id: "S06", name: "Excel Sync Read-Only", weeks: "W11-W12",
+          leads: ["@CONDUIT","@CORTEX"], support: ["@FORGE","@PHANTOM"],
+          blockedBy: ["S02","S03","S05"], blocks: ["S07","S09"],
+          tasks: [
+            {id:"6.1", name:"Data Source CRUD + File Picker", assignee:"@CONDUIT + @FORGE", complexity:"L", notes:""},
+            {id:"6.2", name:"Sync Engine (Polling)", assignee:"@CONDUIT", complexity:"XL", notes:""},
+            {id:"6.3", name:"API Données pour le Frontend", assignee:"@FORGE", complexity:"M", notes:""},
+            {id:"6.4", name:"Frontend Data Source Picker", assignee:"@PRISM", complexity:"L", notes:""}
+          ]
+        },
+        {
+          id: "S07", name: "Sandbox Demo", weeks: "W13-W14",
+          leads: ["@FORGE","@SPECTRUM"], support: ["@PRISM","@NEURON"],
+          blockedBy: ["S04","S05","S06"], blocks: ["S08","S14"],
+          tasks: [
+            {id:"7.1", name:"Données de démonstration réalistes", assignee:"@FORGE + @SPECTRUM", complexity:"L", notes:""},
+            {id:"7.2", name:"Sandbox Mode Backend", assignee:"@FORGE", complexity:"L", notes:""},
+            {id:"7.3", name:"Wizard de Création d'App (UX centrale)", assignee:"@SPECTRUM + @PRISM", complexity:"XL", notes:""},
+            {id:"7.4", name:"Page Dashboard Principal", assignee:"@PRISM", complexity:"L", notes:""},
+            {id:"7.5", name:"Page App Viewer", assignee:"@PRISM", complexity:"M", notes:""},
+            {id:"7.6", name:"Quality Gates Pipeline", assignee:"@NEURON", complexity:"M", notes:""}
+          ]
+        },
+        {
+          id: "S08", name: "Intégration E2E + Beta Interne", weeks: "W15-W16",
+          leads: ["@BLUEPRINT","@WATCHDOG"], support: ["@CATALYST","@FLUX"],
+          blockedBy: ["S01","S02","S03","S04","S05","S06","S07"], blocks: ["S09","S10","S11","S12","S13","S14","S15","S16"],
+          tasks: [
+            {id:"8.1", name:"Tests d'intégration E2E", assignee:"@BLUEPRINT + @WATCHDOG", complexity:"XL", notes:""},
+            {id:"8.2", name:"Observabilité : PostHog + Sentry", assignee:"@CATALYST + @FLUX + @WATCHDOG", complexity:"L", notes:""},
+            {id:"8.3", name:"Bug Bash + Polish", assignee:"Toute l'équipe engineering", complexity:"L", notes:""},
+            {id:"8.4", name:"Performance Audit", assignee:"@WATCHDOG + @PRISM", complexity:"M", notes:""},
+            {id:"8.5", name:"Beta Interne (5-10 utilisateurs)", assignee:"@BLUEPRINT + @ECHO", complexity:"M", notes:""}
+          ]
+        }
+      ]
+    },
+    {
+      id: "B", name: "Convertir et Gouverner", weeks: "W17–W32",
+      sprints: [
+        {
+          id: "S09", name: "Write-back Excel", weeks: "W17-W18",
+          leads: ["@CONDUIT","@FORGE"], support: ["@PHANTOM","@PRISM"],
+          blockedBy: ["S06","S08"], blocks: ["S10","S11"],
+          tasks: [
+            {id:"9.1", name:"Write-back Engine", assignee:"@CONDUIT", complexity:"XL", notes:""},
+            {id:"9.2", name:"API Write Endpoints", assignee:"@FORGE", complexity:"L", notes:""},
+            {id:"9.3", name:"Frontend Inline Editing", assignee:"@PRISM", complexity:"L", notes:""}
+          ]
+        },
+        {
+          id: "S10", name: "6 Composants Avancés", weeks: "W19-W20",
+          leads: ["@PRISM","@MOSAIC"], support: ["@SPECTRUM","@NEURON"],
+          blockedBy: ["S05","S09"], blocks: ["S11","S15"],
+          tasks: [
+            {id:"10.1", name:"PieChart", assignee:"@PRISM", complexity:"M", notes:""},
+            {id:"10.2", name:"LineChart", assignee:"@PRISM", complexity:"M", notes:""},
+            {id:"10.3", name:"KanbanBoard", assignee:"@PRISM", complexity:"XL", notes:""},
+            {id:"10.4", name:"DetailView", assignee:"@PRISM", complexity:"M", notes:""},
+            {id:"10.5", name:"ImageGallery", assignee:"@PRISM", complexity:"L", notes:""},
+            {id:"10.6", name:"PageNav", assignee:"@PRISM", complexity:"M", notes:""},
+            {id:"10.7", name:"Mise à jour Pipeline IA (12 composants)", assignee:"@NEURON", complexity:"L", notes:""}
+          ]
+        },
+        {
+          id: "S11", name: "App Store Interne", weeks: "W21-W22",
+          leads: ["@PRISM","@PULSE"], support: ["@FORGE","@SPECTRUM","@WILDFIRE"],
+          blockedBy: ["S05","S10","S07"], blocks: ["S12","S14"],
+          tasks: [
+            {id:"11.1", name:"API App Store", assignee:"@FORGE", complexity:"L", notes:""},
+            {id:"11.2", name:"Frontend App Store", assignee:"@PRISM + @SPECTRUM", complexity:"XL", notes:""},
+            {id:"11.3", name:"Sharing & Visibility System", assignee:"@FORGE + @PULSE", complexity:"L", notes:""}
+          ]
+        },
+        {
+          id: "S12", name: "Cockpit DSI", weeks: "W23-W24",
+          leads: ["@PRISM","@DIPLOMAT"], support: ["@LENS","@PHANTOM","@CORTEX"],
+          blockedBy: ["S08","S11"], blocks: ["S13","S16"],
+          tasks: [
+            {id:"12.1", name:"API Cockpit DSI (Admin endpoints)", assignee:"@FORGE + @LENS", complexity:"XL", notes:""},
+            {id:"12.2", name:"Frontend Cockpit DSI", assignee:"@PRISM + @SPECTRUM", complexity:"XL", notes:""},
+            {id:"12.3", name:"SSO Enterprise (Admin Consent + SAML/OIDC)", assignee:"@PHANTOM + @FORGE", complexity:"L", notes:""},
+            {id:"12.4", name:"Context Graph JSONB (Recommandations DSI)", assignee:"@CORTEX", complexity:"L", notes:""}
+          ]
+        },
+        {
+          id: "S13", name: "Billing Stripe", weeks: "W25-W26",
+          leads: ["@FORGE","@IRONCLAD"], support: ["@PRISM","@PULSE"],
+          blockedBy: ["S02","S12"], blocks: ["S14","S16"],
+          tasks: [
+            {id:"13.1", name:"Stripe Integration Backend", assignee:"@FORGE", complexity:"XL", notes:""},
+            {id:"13.2", name:"Plan Limits Enforcement", assignee:"@FORGE + @PULSE", complexity:"L", notes:""},
+            {id:"13.3", name:"Conversion Walls Frontend", assignee:"@PRISM + @PULSE", complexity:"L", notes:""},
+            {id:"13.4", name:"Trial Pro 14 jours", assignee:"@FORGE", complexity:"M", notes:""}
+          ]
+        },
+        {
+          id: "S14", name: "Onboarding PLG", weeks: "W27-W28",
+          leads: ["@SPECTRUM","@WILDFIRE"], support: ["@PRISM","@CATALYST","@PULSE"],
+          blockedBy: ["S07","S11","S13"], blocks: ["S16"],
+          tasks: [
+            {id:"14.1", name:"Onboarding Flow (Première connexion)", assignee:"@SPECTRUM + @PRISM", complexity:"XL", notes:""},
+            {id:"14.2", name:"Activation Checklist (Post-onboarding)", assignee:"@PRISM + @WILDFIRE", complexity:"L", notes:""},
+            {id:"14.3", name:"Viral Loops Implementation", assignee:"@PULSE + @FORGE", complexity:"L", notes:""},
+            {id:"14.4", name:"PQL Scoring", assignee:"@CATALYST + @WILDFIRE", complexity:"L", notes:""},
+            {id:"14.5", name:"Email Transactional (Notifications)", assignee:"@FORGE", complexity:"M", notes:""}
+          ]
+        },
+        {
+          id: "S15", name: "Polish, Perf, A11y", weeks: "W29-W30",
+          leads: ["@PRISM","@MOSAIC"], support: ["@WATCHDOG","@SPECTRUM","@NEURON"],
+          blockedBy: ["S09","S10","S11","S12","S13","S14"], blocks: ["S16"],
+          tasks: [
+            {id:"15.1", name:"Performance Optimization", assignee:"@PRISM + @WATCHDOG", complexity:"XL", notes:""},
+            {id:"15.2", name:"Accessibility Audit (WCAG 2.1 AA)", assignee:"@MOSAIC + @PRISM", complexity:"L", notes:""},
+            {id:"15.3", name:"UX Polish", assignee:"@SPECTRUM + @PRISM", complexity:"L", notes:""},
+            {id:"15.4", name:"Pipeline IA Optimization", assignee:"@NEURON", complexity:"M", notes:""},
+            {id:"15.5", name:"AI Feedback Loop", assignee:"@NEURON + @CATALYST", complexity:"L", notes:""},
+            {id:"15.6", name:"Contexte Excel Enrichi & Suggestions Proactives", assignee:"@NEURON + @CONDUIT", complexity:"M", notes:""},
+            {id:"15.7", name:"Error Handling Audit", assignee:"@FORGE + @PHANTOM", complexity:"M", notes:""}
+          ]
+        },
+        {
+          id: "S16", name: "Launch Beta Publique", weeks: "W31-W32",
+          leads: ["@WATCHDOG","@CONQUEST"], support: ["TOUTE L'ÉQUIPE"],
+          blockedBy: ["S15","S13","S14"], blocks: [],
+          tasks: [
+            {id:"16.1", name:"Production Readiness Checklist", assignee:"@WATCHDOG + @PHANTOM", complexity:"XL", notes:""},
+            {id:"16.2", name:"Landing Page & Marketing Website", assignee:"@CONQUEST + @SIGNAL + @PRISM", complexity:"L", notes:""},
+            {id:"16.3", name:"DSI Early Access Program", assignee:"@DIPLOMAT + @CLOSER", complexity:"M", notes:""},
+            {id:"16.4", name:"Campagne de Lancement", assignee:"@CONQUEST + @SIGNAL + @THUNDER", complexity:"L", notes:""},
+            {id:"16.5", name:"Monitoring & War Room Semaine 1", assignee:"@WATCHDOG + @CATALYST", complexity:"M", notes:""}
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+// ============================================
+// STATE MANAGEMENT
+// ============================================
+const STORAGE_KEY = 'instack-prompt-ops-v1';
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      // Merge saved task statuses & notes into INITIAL_DATA
+      const data = JSON.parse(JSON.stringify(INITIAL_DATA));
+      if (parsed.taskStates) {
+        data.phases.forEach(phase => {
+          phase.sprints.forEach(sprint => {
+            sprint.tasks.forEach(task => {
+              const key = `${sprint.id}-${task.id}`;
+              if (parsed.taskStates[key]) {
+                task.status = parsed.taskStates[key].status || 'not_started';
+                task.notes = parsed.taskStates[key].notes || '';
+              }
+            });
+          });
+        });
+      }
+      return data;
+    }
+  } catch(e) { console.warn('Failed to load state', e); }
+  // Default: all not_started
+  const data = JSON.parse(JSON.stringify(INITIAL_DATA));
+  data.phases.forEach(p => p.sprints.forEach(s => s.tasks.forEach(t => { t.status = t.status || 'not_started'; })));
+  return data;
+}
+
+function saveState() {
+  const taskStates = {};
+  state.data.phases.forEach(phase => {
+    phase.sprints.forEach(sprint => {
+      sprint.tasks.forEach(task => {
+        const key = `${sprint.id}-${task.id}`;
+        taskStates[key] = { status: task.status, notes: task.notes };
+      });
+    });
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({ taskStates, savedAt: new Date().toISOString() }));
+}
+
+const state = {
+  data: loadState(),
+  view: 'dashboard',      // dashboard | sprint
+  activeSprint: null,
+  filter: 'all'           // all | not_started | in_progress | blocked | completed
+};
+
+// ============================================
+// COMPUTED
+// ============================================
+function getAllSprints() {
+  return state.data.phases.flatMap(p => p.sprints);
+}
+
+function getAllTasks() {
+  return getAllSprints().flatMap(s => s.tasks.map(t => ({...t, sprintId: s.id})));
+}
+
+function getSprintProgress(sprint) {
+  const total = sprint.tasks.length;
+  if (total === 0) return 0;
+  const done = sprint.tasks.filter(t => t.status === 'completed').length;
+  return Math.round((done / total) * 100);
+}
+
+function getPhaseProgress(phase) {
+  const tasks = phase.sprints.flatMap(s => s.tasks);
+  const total = tasks.length;
+  if (total === 0) return 0;
+  const done = tasks.filter(t => t.status === 'completed').length;
+  return Math.round((done / total) * 100);
+}
+
+function getOverallProgress() {
+  const tasks = getAllTasks();
+  const total = tasks.length;
+  if (total === 0) return 0;
+  const done = tasks.filter(t => t.status === 'completed').length;
+  return Math.round((done / total) * 100);
+}
+
+function getStatusColor(status) {
+  switch(status) {
+    case 'completed': return 'var(--success-500)';
+    case 'in_progress': return 'var(--brand-500)';
+    case 'blocked': return 'var(--error-500)';
+    default: return 'var(--gray-300)';
+  }
+}
+
+function getStatusIcon(status) {
+  switch(status) {
+    case 'completed': return '✓';
+    case 'in_progress': return '◉';
+    case 'blocked': return '!';
+    default: return '';
+  }
+}
+
+function getSprintStatus(sprint) {
+  const p = getSprintProgress(sprint);
+  if (p === 100) return 'completed';
+  const hasBlocked = sprint.tasks.some(t => t.status === 'blocked');
+  const hasInProgress = sprint.tasks.some(t => t.status === 'in_progress');
+  if (hasBlocked) return 'blocked';
+  if (hasInProgress || p > 0) return 'in_progress';
+  return 'not_started';
+}
+
+function getProgressColor(pct) {
+  if (pct === 100) return 'var(--success-500)';
+  if (pct > 0) return 'var(--brand-500)';
+  return 'var(--gray-300)';
+}
+
+function countByStatus(statusName) {
+  return getAllTasks().filter(t => t.status === statusName).length;
+}
+
+function getBlockedSprints() {
+  return getAllSprints().filter(s => s.tasks.some(t => t.status === 'blocked'));
+}
+
+function getCriticalPath() {
+  // Sprints with the most downstream blockers
+  return getAllSprints()
+    .map(s => ({ ...s, downstream: s.blocks.length }))
+    .sort((a, b) => b.downstream - a.downstream)
+    .slice(0, 3);
+}
+
+// ============================================
+// RENDER
+// ============================================
+function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    ${renderHeader()}
+    <div class="main">
+      ${renderSidebar()}
+      <div class="content">
+        ${state.view === 'dashboard' ? renderDashboard() : renderSprintDetail()}
+      </div>
+    </div>
+  `;
+  bindEvents();
+}
+
+function renderHeader() {
+  return `
+    <div class="header">
+      <div class="header-left">
+        <div class="logo">instack<span>Prompt Ops</span></div>
+        <div class="badge badge-blue">${getAllTasks().length} tâches · ${getAllSprints().length} sprints</div>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-secondary btn-sm" onclick="exportJSON()">
+          ↓ Exporter JSON
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="importJSON()">
+          ↑ Importer JSON
+        </button>
+        <button class="btn btn-ghost btn-sm" onclick="resetAll()" title="Réinitialiser">
+          ⟲
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function renderSidebar() {
+  const sprints = getAllSprints();
+  return `
+    <div class="sidebar">
+      <div class="nav-section">
+        <div class="nav-item ${state.view === 'dashboard' ? 'active' : ''}" onclick="navigateTo('dashboard')">
+          ◫ &nbsp;Dashboard
+        </div>
+      </div>
+      ${state.data.phases.map(phase => `
+        <div class="nav-section">
+          <div class="nav-section-title">Phase ${phase.id} — ${phase.name}</div>
+          ${phase.sprints.map(sprint => {
+            const progress = getSprintProgress(sprint);
+            const status = getSprintStatus(sprint);
+            const isActive = state.view === 'sprint' && state.activeSprint === sprint.id;
+            return `
+              <div class="nav-item ${isActive ? 'active' : ''}" onclick="navigateTo('sprint', '${sprint.id}')">
+                <div class="status-dot" style="background: ${getStatusColor(status)}"></div>
+                <span style="flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${sprint.id}</span>
+                <span class="progress-mini" style="color: ${getProgressColor(progress)}">${progress}%</span>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderDashboard() {
+  const totalTasks = getAllTasks().length;
+  const completed = countByStatus('completed');
+  const inProgress = countByStatus('in_progress');
+  const blocked = countByStatus('blocked');
+  const notStarted = countByStatus('not_started');
+  const overall = getOverallProgress();
+
+  return `
+    <h2 style="font-size:20px; font-weight:700; margin-bottom:20px; color:var(--gray-900);">
+      Vue d'ensemble du projet
+    </h2>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Progression globale</div>
+        <div class="kpi-value">${overall}%</div>
+        <div class="kpi-sub">${completed}/${totalTasks} tâches terminées</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">En cours</div>
+        <div class="kpi-value" style="color:var(--brand-600)">${inProgress}</div>
+        <div class="kpi-sub">tâches actives</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Bloquées</div>
+        <div class="kpi-value" style="color:${blocked > 0 ? 'var(--error-600)' : 'var(--gray-400)'}">${blocked}</div>
+        <div class="kpi-sub ${blocked > 0 ? 'down' : ''}">${blocked > 0 ? '⚠ Attention requise' : 'Aucun blocage'}</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Non démarrées</div>
+        <div class="kpi-value" style="color:var(--gray-500)">${notStarted}</div>
+        <div class="kpi-sub">${totalTasks - notStarted} démarrées</div>
+      </div>
+    </div>
+
+    <!-- Phase Progress -->
+    ${state.data.phases.map(phase => {
+      const phasePct = getPhaseProgress(phase);
+      const phaseTasks = phase.sprints.flatMap(s => s.tasks);
+      const phaseDone = phaseTasks.filter(t => t.status === 'completed').length;
+      return `
+        <div class="phase-section">
+          <div class="phase-header">
+            <div class="phase-title">Phase ${phase.id} — ${phase.name} <span style="font-weight:400;color:var(--gray-400);font-size:13px;">(${phase.weeks})</span></div>
+            <div class="phase-pct">${phasePct}% · ${phaseDone}/${phaseTasks.length}</div>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:${phasePct}%;${phasePct === 100 ? 'background:var(--success-500)' : ''}"></div>
+          </div>
+          <div class="sprint-grid">
+            ${phase.sprints.map(sprint => renderSprintCard(sprint)).join('')}
+          </div>
+        </div>
+      `;
+    }).join('')}
+
+    <!-- Dependency Map -->
+    <div class="dep-map">
+      <h3>Chemin critique — Dépendances inter-sprints</h3>
+      <div class="dep-timeline">
+        ${getAllSprints().map((sprint, i) => {
+          const status = getSprintStatus(sprint);
+          const bgColor = status === 'completed' ? 'var(--success-50)' :
+                          status === 'in_progress' ? 'var(--brand-50)' :
+                          status === 'blocked' ? 'var(--error-50)' : 'white';
+          const borderColor = status === 'completed' ? 'var(--success-300)' :
+                              status === 'in_progress' ? 'var(--brand-300)' :
+                              status === 'blocked' ? 'var(--error-300)' : 'var(--gray-200)';
+          return `
+            ${i > 0 ? '<div class="dep-arrow">→</div>' : ''}
+            <div class="dep-node" style="background:${bgColor};border-color:${borderColor}" onclick="navigateTo('sprint','${sprint.id}')">
+              <div class="dep-sprint-id">${sprint.id}</div>
+              <div class="dep-sprint-name">${sprint.name}</div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderSprintCard(sprint) {
+  const progress = getSprintProgress(sprint);
+  const status = getSprintStatus(sprint);
+  const progressColor = progress === 100 ? 'var(--success-500)' :
+                        status === 'blocked' ? 'var(--error-500)' :
+                        progress > 0 ? 'var(--brand-500)' : 'var(--gray-200)';
+  const labelColor = progress === 100 ? 'var(--success-600)' :
+                     status === 'blocked' ? 'var(--error-600)' :
+                     progress > 0 ? 'var(--brand-600)' : 'var(--gray-400)';
+  const isActive = state.view === 'sprint' && state.activeSprint === sprint.id;
+
+  return `
+    <div class="sprint-card ${isActive ? 'active' : ''}" onclick="navigateTo('sprint','${sprint.id}')">
+      <div class="sprint-card-header">
+        <span class="sprint-id">${sprint.id}</span>
+        <span class="sprint-weeks">${sprint.weeks}</span>
+      </div>
+      <div class="sprint-name">${sprint.name}</div>
+      <div class="sprint-leads">${sprint.leads.join(' · ')}</div>
+      <div class="sprint-progress-row">
+        <div class="sprint-progress-bar">
+          <div class="sprint-progress-fill" style="width:${progress}%; background:${progressColor}"></div>
+        </div>
+        <span class="sprint-progress-label" style="color:${labelColor}">${progress}%</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderSprintDetail() {
+  const sprint = getAllSprints().find(s => s.id === state.activeSprint);
+  if (!sprint) return '<p>Sprint introuvable.</p>';
+
+  const progress = getSprintProgress(sprint);
+  const filteredTasks = state.filter === 'all'
+    ? sprint.tasks
+    : sprint.tasks.filter(t => t.status === state.filter);
+
+  const statusCounts = {
+    all: sprint.tasks.length,
+    not_started: sprint.tasks.filter(t => t.status === 'not_started').length,
+    in_progress: sprint.tasks.filter(t => t.status === 'in_progress').length,
+    blocked: sprint.tasks.filter(t => t.status === 'blocked').length,
+    completed: sprint.tasks.filter(t => t.status === 'completed').length,
+  };
+
+  return `
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+      <button class="btn btn-ghost btn-sm" onclick="navigateTo('dashboard')">← Retour</button>
+      <h2 style="font-size:20px; font-weight:700; color:var(--gray-900);">${sprint.id} — ${sprint.name}</h2>
+      <span class="badge badge-blue">${sprint.weeks}</span>
+      <span style="margin-left:auto;font-size:24px;font-weight:700;color:var(--brand-600)">${progress}%</span>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-bar" style="margin-bottom:20px; height:10px;">
+      <div class="progress-fill" style="width:${progress}%;${progress===100?'background:var(--success-500)':''}"></div>
+    </div>
+
+    <!-- Dependencies -->
+    ${(sprint.blockedBy.length > 0 || sprint.blocks.length > 0) ? `
+      <div class="detail-deps" style="margin-bottom:16px; border-radius:var(--radius-md); border:1px solid var(--gray-200);">
+        ${sprint.blockedBy.length > 0 ? `
+          <div><span class="dep-label">Bloqué par : </span>${sprint.blockedBy.map(d => `<span class="dep-tag blocker" style="cursor:pointer" onclick="navigateTo('sprint','${d}')">${d}</span>`).join(' ')}</div>
+        ` : ''}
+        ${sprint.blocks.length > 0 ? `
+          <div><span class="dep-label">Bloque : </span>${sprint.blocks.map(d => `<span class="dep-tag blocks" style="cursor:pointer" onclick="navigateTo('sprint','${d}')">${d}</span>`).join(' ')}</div>
+        ` : ''}
+      </div>
+    ` : ''}
+
+    <!-- Quick actions -->
+    <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
+      <button class="btn btn-success btn-sm" onclick="markAllSprint('${sprint.id}','completed')">✓ Tout compléter</button>
+      <button class="btn btn-primary btn-sm" onclick="markAllSprint('${sprint.id}','in_progress')">◉ Tout en cours</button>
+      <button class="btn btn-secondary btn-sm" onclick="markAllSprint('${sprint.id}','not_started')">⟲ Réinitialiser</button>
+      <button class="btn btn-secondary btn-sm" onclick="copyPromptRef('${sprint.id}')" title="Copier le chemin du prompt">📋 Copier chemin prompt</button>
+    </div>
+
+    <!-- Filter -->
+    <div class="filter-bar">
+      ${['all','not_started','in_progress','blocked','completed'].map(f => {
+        const labels = {all:'Toutes',not_started:'Non démarrées',in_progress:'En cours',blocked:'Bloquées',completed:'Terminées'};
+        return `<button class="filter-btn ${state.filter === f ? 'active' : ''}" onclick="setFilter('${f}')">${labels[f]} (${statusCounts[f]})</button>`;
+      }).join('')}
+    </div>
+
+    <!-- Leads & Support -->
+    <div style="margin-bottom:16px; font-size:12px; color:var(--gray-500);">
+      <strong style="color:var(--gray-700)">Leads :</strong> ${sprint.leads.join(', ')}
+      &nbsp;·&nbsp;
+      <strong style="color:var(--gray-700)">Support :</strong> ${sprint.support.join(', ')}
+    </div>
+
+    <!-- Task list -->
+    <div class="detail-panel">
+      ${filteredTasks.length === 0 ? `
+        <div style="padding:40px;text-align:center;color:var(--gray-400)">
+          Aucune tâche avec le filtre « ${state.filter} »
+        </div>
+      ` : filteredTasks.map(task => renderTaskRow(sprint.id, task)).join('')}
+    </div>
+  `;
+}
+
+function renderTaskRow(sprintId, task) {
+  const statusClass = task.status || 'not_started';
+  return `
+    <div class="task-row">
+      <button class="task-status-btn ${statusClass}" onclick="cycleStatus('${sprintId}','${task.id}')" title="Clic pour changer le statut">
+        ${getStatusIcon(statusClass)}
+      </button>
+      <div class="task-content">
+        <div class="task-name-row">
+          <span class="task-id">${task.id}</span>
+          <span class="task-name">${task.name}</span>
+        </div>
+        <div class="task-meta-row">
+          <span class="task-assignee">${task.assignee}</span>
+          <span class="task-complexity ${task.complexity}">${task.complexity}</span>
+          <span class="badge badge-${statusClass === 'completed' ? 'green' : statusClass === 'in_progress' ? 'blue' : statusClass === 'blocked' ? 'red' : 'gray'}">${
+            statusClass === 'completed' ? 'Terminée' :
+            statusClass === 'in_progress' ? 'En cours' :
+            statusClass === 'blocked' ? 'Bloquée' : 'Non démarrée'
+          }</span>
+        </div>
+        <div class="task-notes">
+          <textarea
+            placeholder="Notes, blockers, contexte..."
+            rows="1"
+            oninput="updateNotes('${sprintId}','${task.id}',this.value); autoResize(this)"
+            onfocus="autoResize(this)"
+          >${task.notes || ''}</textarea>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ============================================
+// ACTIONS
+// ============================================
+function navigateTo(view, sprintId) {
+  state.view = view;
+  state.activeSprint = sprintId || null;
+  state.filter = 'all';
+  render();
+  if (view === 'sprint') {
+    document.querySelector('.content')?.scrollTo(0, 0);
+  }
+}
+
+function cycleStatus(sprintId, taskId) {
+  const order = ['not_started', 'in_progress', 'blocked', 'completed'];
+  const sprint = getAllSprints().find(s => s.id === sprintId);
+  const task = sprint?.tasks.find(t => t.id === taskId);
+  if (!task) return;
+  const idx = order.indexOf(task.status || 'not_started');
+  task.status = order[(idx + 1) % order.length];
+  saveState();
+  render();
+}
+
+function updateNotes(sprintId, taskId, value) {
+  const sprint = getAllSprints().find(s => s.id === sprintId);
+  const task = sprint?.tasks.find(t => t.id === taskId);
+  if (task) {
+    task.notes = value;
+    saveState();
+  }
+}
+
+function setFilter(filter) {
+  state.filter = filter;
+  render();
+}
+
+function markAllSprint(sprintId, status) {
+  const sprint = getAllSprints().find(s => s.id === sprintId);
+  if (!sprint) return;
+  sprint.tasks.forEach(t => t.status = status);
+  saveState();
+  render();
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+
+function copyPromptRef(sprintId) {
+  const num = parseInt(sprintId.replace('S',''));
+  const phase = num <= 8 ? '01_PHASE_A' : '02_PHASE_B';
+  const fileMap = {
+    'S01':'S01_FOUNDATIONS.md','S02':'S02_SCHEMA_AUTH.md','S03':'S03_PIPELINE_IA_CLASSIFY.md',
+    'S04':'S04_PIPELINE_IA_GENERATE.md','S05':'S05_COMPONENTS_RENDER.md','S06':'S06_EXCEL_SYNC.md',
+    'S07':'S07_SANDBOX_DEMO.md','S08':'S08_INTEGRATION_BETA.md','S09':'S09_WRITEBACK_EXCEL.md',
+    'S10':'S10_ADVANCED_COMPONENTS.md','S11':'S11_APP_STORE.md','S12':'S12_COCKPIT_DSI.md',
+    'S13':'S13_BILLING_STRIPE.md','S14':'S14_ONBOARDING_PLG.md','S15':'S15_POLISH_PERF.md',
+    'S16':'S16_LAUNCH_BETA.md'
+  };
+  const path = `prompt-system/${phase}/${fileMap[sprintId]}`;
+  navigator.clipboard.writeText(path).then(() => {
+    showToast(`Chemin copié : ${path}`);
+  }).catch(() => {
+    showToast(path, 'info');
+  });
+}
+
+// ============================================
+// TOAST
+// ============================================
+function showToast(message, type = 'success') {
+  const toast = document.createElement('div');
+  const bg = type === 'success' ? 'var(--success-600)' : type === 'error' ? 'var(--error-600)' : 'var(--brand-600)';
+  toast.style.cssText = `
+    position:fixed; bottom:24px; right:24px; background:${bg}; color:white;
+    padding:10px 16px; border-radius:var(--radius-md); font-size:13px; font-weight:500;
+    box-shadow:var(--shadow-lg); z-index:200; transition:opacity 0.3s; font-family:Inter,sans-serif;
+  `;
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.style.opacity = '0'; }, 2500);
+  setTimeout(() => { toast.remove(); }, 3000);
+}
+
+// ============================================
+// EXPORT / IMPORT
+// ============================================
+function exportJSON() {
+  const taskStates = {};
+  state.data.phases.forEach(phase => {
+    phase.sprints.forEach(sprint => {
+      sprint.tasks.forEach(task => {
+        const key = `${sprint.id}-${task.id}`;
+        taskStates[key] = { status: task.status, notes: task.notes };
+      });
+    });
+  });
+  const exportData = {
+    project: 'instack',
+    exportedAt: new Date().toISOString(),
+    version: '1.0.0',
+    taskStates
+  };
+  const json = JSON.stringify(exportData, null, 2);
+
+  document.getElementById('modal-title').textContent = 'Exporter JSON';
+  document.getElementById('modal-body').innerHTML = `
+    <p style="font-size:13px;color:var(--gray-500);margin-bottom:12px;">Copiez ce JSON pour sauvegarder votre avancement :</p>
+    <textarea class="json-area" id="export-area" readonly>${json}</textarea>
+  `;
+  document.getElementById('modal-footer').innerHTML = `
+    <button class="btn btn-secondary" onclick="closeModal()">Fermer</button>
+    <button class="btn btn-primary" onclick="navigator.clipboard.writeText(document.getElementById('export-area').value);showToast('JSON copié !');closeModal()">Copier</button>
+  `;
+  openModal();
+}
+
+function importJSON() {
+  document.getElementById('modal-title').textContent = 'Importer JSON';
+  document.getElementById('modal-body').innerHTML = `
+    <p style="font-size:13px;color:var(--gray-500);margin-bottom:12px;">Collez un export JSON pour restaurer votre avancement :</p>
+    <textarea class="json-area" id="import-area" placeholder='{"project":"instack","taskStates":{...}}'></textarea>
+  `;
+  document.getElementById('modal-footer').innerHTML = `
+    <button class="btn btn-secondary" onclick="closeModal()">Annuler</button>
+    <button class="btn btn-primary" onclick="doImport()">Importer</button>
+  `;
+  openModal();
+}
+
+function doImport() {
+  try {
+    const raw = document.getElementById('import-area').value;
+    const parsed = JSON.parse(raw);
+    if (!parsed.taskStates) throw new Error('Format invalide');
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+    state.data = loadState();
+    closeModal();
+    render();
+    showToast('Import réussi !');
+  } catch(e) {
+    showToast('Erreur : JSON invalide', 'error');
+  }
+}
+
+function openModal() { document.getElementById('modal-overlay').classList.add('open'); }
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+
+function resetAll() {
+  if (!confirm('Réinitialiser tous les statuts ? Cette action est irréversible.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  state.data = loadState();
+  state.view = 'dashboard';
+  state.activeSprint = null;
+  render();
+  showToast('Réinitialisé');
+}
+
+// ============================================
+// EVENTS
+// ============================================
+function bindEvents() {
+  // Auto-resize textareas on load
+  document.querySelectorAll('.task-notes textarea').forEach(el => {
+    if (el.value) autoResize(el);
+  });
+}
+
+// Close modal on backdrop click
+document.getElementById('modal-overlay').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeModal();
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// ============================================
+// BOOT
+// ============================================
+render();
+</script>
+</body>
+</html>

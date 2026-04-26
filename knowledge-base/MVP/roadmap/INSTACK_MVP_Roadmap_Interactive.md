@@ -1,0 +1,1263 @@
+---
+title: "INSTACK — MVP Roadmap & Agent Arena"
+source_file: "MVP/roadmap/INSTACK_MVP_Roadmap_Interactive.html"
+type: html
+date_converted: "2026-04-26"
+parent_folder: "roadmap"
+---
+
+# INSTACK — MVP Roadmap & Agent Arena
+
+# INSTACK MVP Roadmap
+
+## Phases du MVP
+
+De la validation terrain au premier euro de CA en 16 semaines
+
+### Validation Terrain
+
+50 interviews clients, 30 lettres d'intention, recrutement CTO cofondateur, DPA Anthropic signe. Aucune ligne de code avant validation des 3 conditions.
+
+### "Prouver la Magie"
+
+Pipeline IA 4 etages, 6 composants atomiques, sandbox donnees demo, mode personal OAuth, cockpit DSI read-only. Upload Excel → app en 30 secondes.
+
+### "Convertir et Gouverner"
+
+Write-back Excel, 12 composants complets, App Store interne, cockpit DSI complet, billing Stripe, Enterprise onboarding. Premiers euros de CA.
+
+### "Moat & Expansion"
+
+Knowledge Graph Neo4j, Google Workspace, marketplace templates, expansion Benelux, levee Seed 1.5-2.5M. Objectif: 500 clients, 2M ARR.
+
+## Conditions Non-Negociables
+
+3 pre-requis absolus avant la premiere ligne de code
+
+#### 30 Lettres d'Intention
+
+Pas des beta-testeurs — des engagements financiers d'Ops Managers retail/industrie qui ont essaye et abandonne Power Apps.
+
+#### CTO Cofondateur Recrute
+
+Senior, expertise Microsoft Graph API + IA generative + infra serverless. Sans CTO, le MVP est irrealisable.
+
+#### DPA + SCCs Anthropic
+
+Couverture juridique des transferts hors UE. Aucun DSI francais ne signera sans garantie RGPD/Cloud Act.
+
+## 10 Agents Solution Architect
+
+Cliquez sur un agent pour voir ses recommandations, decisions cles, livrables et positions dans l'arena
+
+## Timeline Detaillee — 18 Mois
+
+Vue Gantt de chaque workstream, de la Phase A au scale international
+
+## Milestones & Metriques Cles
+
+Les 8 jalons critiques de M0 au breakeven
+
+### Validation Terrain
+
+50 interviews, 30 LOI, CTO recrute, DPA Anthropic
+
+### Pipeline IA Fonctionnel
+
+Pipeline 4 etages, 6 composants, sandbox demo, PostHog integre
+
+### Beta Privee
+
+OAuth personal, lecture Excel live, 20 beta-testeurs internes
+
+### App Store + Cockpit
+
+Store interne, cockpit DSI basique, 12 composants, 50 beta externes
+
+### Launch Commercial
+
+Billing Stripe, Enterprise onboarding, templates retail, 20 pilotes
+
+### Traction PLG
+
+100 clients Pro, 5 Enterprise, K-factor >0.3
+
+### Levee Seed
+
+Seed 1.5-2.5M, equipe 8 personnes, expansion Benelux
+
+### Breakeven
+
+85-100 clients payants, auto-suffisance operationnelle
+
+## Livrables par C-Level
+
+Chaque responsable recoit son playbook operationnel et ses KPIs
+
+### CTO — Tech & Development
+
+### CPO — Product & UX
+
+### CMO / VP Growth — Marketing & Growth
+
+### CEO / VP Sales — Sales & Strategy
+
+## Unit Economics & Scenario Financier
+
+Le modele SaaS le plus favorable du segment: 95.9% de marge brute
+
+## Decomposition COGS — Tier Pro (299/mois)
+
+## Scenario Financier 18 Mois
+
+## Plan de Financement
+
+### Pre-Seed: 300-500K
+
+MVP, connexion SharePoint, SSO, 20 beta-testeurs, 50 apps creees
+
+### Seed: 1.5-2.5M
+
+50 entreprises payantes, 200K ARR, NPS > 40, equipe 6-8
+
+### Series A: 8-15M
+
+500+ entreprises, 2M+ ARR, Benelux+DACH, self-hosting
+
+
+## 10 Agents Solution Architect - Full Profiles
+
+### SA-01: Alexandre Duval
+
+**Role:** Backend & API Lead
+
+### SA-02: Marie Chen
+
+**Role:** Frontend & Design System Lead
+
+### SA-03: Karim Benali
+
+**Role:** AI/ML Pipeline Architect
+
+### SA-04: Sophie Laurent
+
+**Role:** Infrastructure & DevOps Lead
+
+### SA-05: Thomas Weber
+
+**Role:** Security & Compliance Architect
+
+**Recommendations:**
+- adoption bottom-up",
+      "Implementer l
+
+### SA-06: Elena Rossi
+
+**Role:** Product Management Lead
+
+**Recommendations:**
+- est pas le nombre d
+- apps UTILISEES par d
+- time-to-aha
+
+### SA-07: Lucas Martin
+
+**Role:** UX/Design Lead
+
+**Recommendations:**
+- onboarding doit etre testable sans compte &mdash; mode
+- avec donnees demo",
+      "Le chat de creation doit montrer un preview live pendant la conversation &mdash; c
+- App Store doit avoir une recherche par probleme (
+- ,
+
+### SA-08: Camille Dubois
+
+**Role:** Growth & Marketing Lead
+
+**Recommendations:**
+- abord prouver son efficacite organique",
+      "Microsoft AppSource est le canal #1 d
+- Category Creation
+
+### SA-09: Pierre Moreau
+
+**Role:** Sales & GTM Lead
+
+### SA-10: Isabelle Fournier
+
+**Role:** Strategy & Business Lead
+
+**Recommendations:**
+- abord",
+      "Le moat reel est le Knowledge Graph (V2) + les templates communautaires &mdash; pas la technologie IA seule",
+      "Pre-seed 735K max &mdash; au-dela, la dilution est trop forte pour un produit non lance",
+      "La metrique #1 pour les investisseurs : le nombre d
+
+---
+
+<details>
+<summary>Original HTML Source (for interactive features)</summary>
+
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INSTACK — MVP Roadmap & Agent Arena</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fafbfc;
+  --bg-card: #ffffff;
+  --bg-elevated: #f4f6f8;
+  --bg-accent: #f0f4ff;
+  --border: #e2e8f0;
+  --border-light: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --blue: #3b82f6;
+  --blue-light: #dbeafe;
+  --blue-dark: #1e40af;
+  --purple: #7c3aed;
+  --purple-light: #ede9fe;
+  --cyan: #0891b2;
+  --cyan-light: #cffafe;
+  --green: #059669;
+  --green-light: #d1fae5;
+  --amber: #d97706;
+  --amber-light: #fef3c7;
+  --pink: #db2777;
+  --pink-light: #fce7f3;
+  --orange: #ea580c;
+  --orange-light: #ffedd5;
+  --red: #dc2626;
+  --red-light: #fee2e2;
+  --teal: #0d9488;
+  --teal-light: #ccfbf1;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03);
+  --shadow: 0 4px 16px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text-primary); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+/* ─── HEADER ─── */
+.header {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 32px 40px 24px;
+  position: sticky; top: 0; z-index: 100;
+}
+.header-inner { max-width: 1440px; margin: 0 auto; }
+.header-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+.logo-area { display: flex; align-items: center; gap: 14px; }
+.logo-mark {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 900; font-size: 18px; letter-spacing: -0.5px;
+}
+.logo-text h1 { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; color: var(--text-primary); }
+.logo-text span { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+.header-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+.hbadge {
+  padding: 5px 14px; border-radius: 100px; font-size: 12px; font-weight: 600;
+  border: 1px solid var(--border); background: var(--bg-elevated); color: var(--text-secondary);
+}
+.hbadge.score { background: var(--green-light); color: var(--green); border-color: transparent; }
+.hbadge.date { background: var(--blue-light); color: var(--blue-dark); border-color: transparent; }
+
+/* ─── TABS ─── */
+.tabs-row { margin-top: 20px; display: flex; gap: 2px; overflow-x: auto; padding-bottom: 2px; }
+.tab {
+  padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  color: var(--text-muted); cursor: pointer; border: none; background: none;
+  white-space: nowrap; transition: all 0.15s;
+}
+.tab:hover { color: var(--text-primary); background: var(--bg-elevated); }
+.tab.active { color: var(--blue); background: var(--blue-light); }
+
+/* ─── LAYOUT ─── */
+.container { max-width: 1440px; margin: 0 auto; padding: 28px 40px 60px; }
+.section { display: none; }
+.section.active { display: block; animation: fadeIn 0.25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ─── KPI STRIP ─── */
+.kpi-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 32px; }
+.kpi { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 18px 16px; text-align: center; box-shadow: var(--shadow-sm); }
+.kpi .val { font-size: 28px; font-weight: 800; letter-spacing: -1px; }
+.kpi .lbl { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+.kpi.blue .val { color: var(--blue); }
+.kpi.green .val { color: var(--green); }
+.kpi.amber .val { color: var(--amber); }
+.kpi.purple .val { color: var(--purple); }
+
+/* ─── SECTION HEADINGS ─── */
+.sh { margin: 36px 0 20px; }
+.sh h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--text-primary); }
+.sh p { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
+
+/* ─── PHASE CARDS ─── */
+.phase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.phase-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 24px; box-shadow: var(--shadow-sm); position: relative; overflow: hidden;
+}
+.phase-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.phase-card.pa::before { background: linear-gradient(90deg, var(--blue), var(--purple)); }
+.phase-card.pb::before { background: linear-gradient(90deg, var(--green), var(--cyan)); }
+.phase-card.v2::before { background: linear-gradient(90deg, var(--amber), var(--orange)); }
+.phase-card .phase-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 6px; }
+.phase-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.phase-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+.phase-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.phase-pill { padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; background: var(--bg-elevated); color: var(--text-secondary); }
+
+/* ─── CONDITIONS ─── */
+.cond-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-top: 16px; }
+.cond-card {
+  background: var(--red-light); border: 1px solid #fecaca; border-radius: var(--radius-sm);
+  padding: 18px 20px; display: flex; gap: 14px; align-items: flex-start;
+}
+.cond-icon { width: 32px; height: 32px; border-radius: 8px; background: var(--red); color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; flex-shrink: 0; }
+.cond-card h4 { font-size: 14px; font-weight: 700; color: var(--red); margin-bottom: 2px; }
+.cond-card p { font-size: 12px; color: #7f1d1d; line-height: 1.5; }
+
+/* ═══════════════════════════════════════════════
+   AGENTS — the big redesign
+   ═══════════════════════════════════════════════ */
+.agents-overview-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 28px; }
+@media (max-width: 1200px) { .agents-overview-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) { .agents-overview-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.agent-mini {
+  background: var(--bg-card); border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  padding: 14px 16px; cursor: pointer; transition: all 0.2s; position: relative;
+}
+.agent-mini:hover { border-color: var(--blue); box-shadow: var(--shadow); transform: translateY(-2px); }
+.agent-mini.selected { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-light); }
+.agent-mini .am-top { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.agent-mini .am-avatar {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 12px; color: white; flex-shrink: 0;
+}
+.agent-mini .am-name { font-size: 13px; font-weight: 700; line-height: 1.2; }
+.agent-mini .am-role { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+.agent-mini .am-score {
+  display: flex; align-items: center; gap: 6px; margin-top: 6px;
+}
+.am-score-track { flex: 1; height: 4px; background: var(--bg-elevated); border-radius: 2px; overflow: hidden; }
+.am-score-fill { height: 100%; border-radius: 2px; }
+.am-score-val { font-size: 12px; font-weight: 700; }
+
+/* Agent detail panel */
+.agent-detail {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); overflow: hidden; animation: fadeIn 0.25s ease;
+}
+.agent-detail-header {
+  padding: 28px 32px 24px; display: flex; align-items: flex-start; gap: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.ad-avatar {
+  width: 56px; height: 56px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 18px; color: white; flex-shrink: 0;
+}
+.ad-info h3 { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; }
+.ad-info .ad-role { font-size: 14px; color: var(--text-secondary); font-weight: 500; margin-top: 2px; }
+.ad-info .ad-desc { font-size: 13px; color: var(--text-muted); margin-top: 8px; line-height: 1.6; max-width: 700px; }
+.ad-score-big { margin-left: auto; text-align: center; flex-shrink: 0; }
+.ad-score-big .num { font-size: 36px; font-weight: 900; letter-spacing: -2px; }
+.ad-score-big .of { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+
+.agent-detail-body { padding: 28px 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 900px) { .agent-detail-body { grid-template-columns: 1fr; } }
+
+.ad-section h4 {
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--text-muted); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border-light);
+}
+.ad-section ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.ad-section li {
+  font-size: 13px; color: var(--text-secondary); line-height: 1.5; padding: 10px 14px;
+  background: var(--bg-elevated); border-radius: 8px; border-left: 3px solid var(--border);
+}
+.ad-section li strong { color: var(--text-primary); font-weight: 600; }
+
+/* Arena debate cards */
+.ad-arena { grid-column: 1 / -1; }
+.arena-debates { display: flex; flex-direction: column; gap: 10px; }
+.arena-debate {
+  padding: 14px 18px; background: var(--bg-accent); border-radius: var(--radius-sm);
+  border: 1px solid #e0e7ff; display: flex; gap: 14px; align-items: flex-start;
+}
+.arena-round {
+  width: 28px; height: 28px; border-radius: 8px; background: var(--blue);
+  color: white; font-size: 12px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.arena-debate .ad-text { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+.arena-debate .ad-text strong { color: var(--text-primary); }
+.arena-debate .ad-position {
+  display: inline-block; margin-top: 6px; padding: 2px 10px; border-radius: 6px;
+  font-size: 11px; font-weight: 700; background: var(--green-light); color: var(--green);
+}
+
+/* ─── TIMELINE ─── */
+.tl-container { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow-x: auto; padding: 24px; }
+.tl-head { display: grid; grid-template-columns: 180px 1fr; gap: 16px; margin-bottom: 6px; }
+.tl-months { display: grid; grid-template-columns: repeat(18, 1fr); gap: 3px; }
+.tl-months span { text-align: center; font-size: 11px; color: var(--text-muted); font-weight: 700; padding: 4px 0; }
+.tl-months span.now { color: var(--blue); background: var(--blue-light); border-radius: 4px; }
+.tl-row { display: grid; grid-template-columns: 180px 1fr; gap: 16px; margin: 3px 0; align-items: center; }
+.tl-label {
+  font-size: 12px; font-weight: 700; padding: 8px 12px;
+  border-radius: 8px; border-left: 3px solid; background: var(--bg-elevated);
+}
+.tl-bars { display: grid; grid-template-columns: repeat(18, 1fr); gap: 3px; }
+.tl-cell {
+  height: 32px; border-radius: 6px; position: relative; cursor: pointer; transition: all 0.15s;
+}
+.tl-cell:hover { transform: scaleY(1.15); filter: brightness(1.1); }
+.tl-cell .tip {
+  display: none; position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+  background: var(--text-primary); color: white; padding: 6px 12px; border-radius: 8px;
+  font-size: 11px; font-weight: 500; white-space: nowrap; z-index: 50;
+  box-shadow: var(--shadow-lg);
+}
+.tl-cell .tip::after {
+  content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: var(--text-primary);
+}
+.tl-cell:hover .tip { display: block; }
+.tl-empty { background: var(--bg-elevated); }
+.tl-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-light); }
+.tl-legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); font-weight: 500; }
+.tl-legend-dot { width: 12px; height: 12px; border-radius: 4px; }
+
+/* Color classes */
+.c-blue { background: var(--blue); } .b-blue { border-color: var(--blue); }
+.c-purple { background: var(--purple); } .b-purple { border-color: var(--purple); }
+.c-cyan { background: var(--cyan); } .b-cyan { border-color: var(--cyan); }
+.c-green { background: var(--green); } .b-green { border-color: var(--green); }
+.c-amber { background: var(--amber); } .b-amber { border-color: var(--amber); }
+.c-pink { background: var(--pink); } .b-pink { border-color: var(--pink); }
+.c-orange { background: var(--orange); } .b-orange { border-color: var(--orange); }
+.c-red { background: var(--red); } .b-red { border-color: var(--red); }
+.c-teal { background: var(--teal); } .b-teal { border-color: var(--teal); }
+
+/* Opacity steps */
+.o9 { opacity: 0.92; } .o8 { opacity: 0.78; } .o7 { opacity: 0.65; }
+.o6 { opacity: 0.55; } .o5 { opacity: 0.45; } .o4 { opacity: 0.35; } .o3 { opacity: 0.28; }
+
+/* ─── MILESTONES ─── */
+.ms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.ms-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 20px; box-shadow: var(--shadow-sm); position: relative; overflow: hidden;
+}
+.ms-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.ms-card.pa::before { background: linear-gradient(90deg, var(--blue), var(--purple)); }
+.ms-card.pb::before { background: linear-gradient(90deg, var(--green), var(--cyan)); }
+.ms-card.v2::before { background: linear-gradient(90deg, var(--amber), var(--orange)); }
+.ms-card .ms-date { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+.ms-card h3 { font-size: 15px; font-weight: 700; margin: 6px 0 4px; }
+.ms-card p { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+.ms-metrics { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+.ms-metric { padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; background: var(--bg-elevated); color: var(--text-secondary); }
+
+/* ─── DELIVERABLES ─── */
+.del-section { margin-bottom: 28px; }
+.del-section h3 {
+  font-size: 15px; font-weight: 700; padding: 10px 16px; background: var(--bg-elevated);
+  border-radius: var(--radius-sm); margin-bottom: 10px; display: flex; align-items: center; gap: 10px;
+}
+.del-section h3 .del-dot { width: 8px; height: 8px; border-radius: 50%; }
+.del-list { display: flex; flex-direction: column; gap: 6px; }
+.del-item {
+  padding: 12px 16px; background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); font-size: 13px; color: var(--text-secondary);
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.del-item strong { color: var(--text-primary); font-weight: 600; }
+.del-item .del-file { font-size: 11px; color: var(--blue); font-weight: 600; white-space: nowrap; margin-left: auto; }
+
+/* ─── ECONOMICS ─── */
+.econ-table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  overflow: hidden; box-shadow: var(--shadow-sm);
+}
+.econ-table th {
+  padding: 10px 14px; font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--text-muted); background: var(--bg-elevated);
+  text-align: right; border-bottom: 1px solid var(--border);
+}
+.econ-table th:first-child { text-align: left; }
+.econ-table td { padding: 10px 14px; font-size: 13px; text-align: right; border-bottom: 1px solid var(--border-light); }
+.econ-table td:first-child { text-align: left; font-weight: 600; color: var(--text-secondary); }
+.econ-table tr:last-child td { border-bottom: none; font-weight: 700; }
+.econ-table .highlight { color: var(--green); font-weight: 700; }
+.econ-table .big { color: var(--blue); font-weight: 800; }
+
+.cogs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0; }
+.cogs-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px; text-align: center; box-shadow: var(--shadow-sm); }
+.cogs-card .cv { font-size: 28px; font-weight: 800; letter-spacing: -1px; }
+.cogs-card .cl { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
+
+/* fund cards */
+.fund-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 16px; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .header { padding: 20px 16px 16px; }
+  .container { padding: 16px; }
+  .header-top { flex-direction: column; align-items: flex-start; }
+  .agent-detail-header { flex-direction: column; }
+  .ad-score-big { margin-left: 0; }
+  .agent-detail-body { padding: 20px 16px; }
+  .cogs-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════ HEADER ════════ -->
+<div class="header">
+  <div class="header-inner">
+    <div class="header-top">
+      <div class="logo-area">
+        <div class="logo-mark">IN</div>
+        <div class="logo-text">
+          <h1>INSTACK MVP Roadmap</h1>
+          <span>L'App Store Interne Gouverne &mdash; Architecture & Agent Arena</span>
+        </div>
+      </div>
+      <div class="header-badges">
+        <span class="hbadge">10 Agents SA</span>
+        <span class="hbadge score">Arena 95.2/100</span>
+        <span class="hbadge date">Avril 2026</span>
+        <span class="hbadge">16 semaines MVP</span>
+      </div>
+    </div>
+    <div class="tabs-row" id="tabs">
+      <button class="tab active" data-target="overview">Vue d'ensemble</button>
+      <button class="tab" data-target="agents">Agents SA &amp; Arena</button>
+      <button class="tab" data-target="timeline">Timeline 18 mois</button>
+      <button class="tab" data-target="milestones">Milestones</button>
+      <button class="tab" data-target="deliverables">Livrables C-Level</button>
+      <button class="tab" data-target="economics">Unit Economics</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ CONTENT ════════ -->
+<div class="container">
+
+<!-- ──── OVERVIEW ──── -->
+<div class="section active" id="s-overview">
+  <div class="kpi-strip">
+    <div class="kpi blue"><div class="val">16</div><div class="lbl">Semaines MVP</div></div>
+    <div class="kpi green"><div class="val">95.9%</div><div class="lbl">Marge brute</div></div>
+    <div class="kpi purple"><div class="val">5</div><div class="lbl">Equipe Phase A</div></div>
+    <div class="kpi amber"><div class="val">12-18</div><div class="lbl">Mois avant Microsoft</div></div>
+    <div class="kpi blue"><div class="val">735K</div><div class="lbl">Pre-seed requis</div></div>
+    <div class="kpi green"><div class="val">22.8x</div><div class="lbl">LTV/CAC Pro</div></div>
+    <div class="kpi purple"><div class="val">M14</div><div class="lbl">Breakeven</div></div>
+  </div>
+
+  <div class="sh"><h2>Phases du MVP</h2><p>De la validation terrain au premier euro de CA en 16 semaines</p></div>
+  <div class="phase-grid">
+    <div class="phase-card pa">
+      <div class="phase-tag">Semaines 0 &mdash; Pre-requis</div>
+      <h3>Validation Terrain</h3>
+      <p>50 interviews clients, 30 lettres d'intention, recrutement CTO cofondateur, DPA Anthropic signe. Aucune ligne de code avant validation des 3 conditions.</p>
+      <div class="phase-pills"><span class="phase-pill">50 interviews</span><span class="phase-pill">30 LOI</span><span class="phase-pill">1 CTO</span><span class="phase-pill">DPA signe</span></div>
+    </div>
+    <div class="phase-card pa">
+      <div class="phase-tag">S1-S8 &mdash; Phase A</div>
+      <h3>"Prouver la Magie"</h3>
+      <p>Pipeline IA 4 etages, 6 composants atomiques, sandbox donnees demo, mode personal OAuth, cockpit DSI read-only. Upload Excel &rarr; app en 30 secondes.</p>
+      <div class="phase-pills"><span class="phase-pill">6 composants</span><span class="phase-pill">92% succes IA</span><span class="phase-pill">&lt; 90s creation</span><span class="phase-pill">20 beta</span></div>
+    </div>
+    <div class="phase-card pb">
+      <div class="phase-tag">S9-S16 &mdash; Phase B</div>
+      <h3>"Convertir et Gouverner"</h3>
+      <p>Write-back Excel, 12 composants complets, App Store interne, cockpit DSI complet, billing Stripe, Enterprise onboarding. Premiers euros de CA.</p>
+      <div class="phase-pills"><span class="phase-pill">12 composants</span><span class="phase-pill">App Store</span><span class="phase-pill">Billing</span><span class="phase-pill">50 pilotes</span></div>
+    </div>
+    <div class="phase-card v2">
+      <div class="phase-tag">Mois 5-18 &mdash; V2 & Scale</div>
+      <h3>"Moat & Expansion"</h3>
+      <p>Knowledge Graph Neo4j, Google Workspace, marketplace templates, expansion Benelux, levee Seed 1.5-2.5M. Objectif: 500 clients, 2M ARR.</p>
+      <div class="phase-pills"><span class="phase-pill">Neo4j</span><span class="phase-pill">Google WS</span><span class="phase-pill">Marketplace</span><span class="phase-pill">Benelux</span></div>
+    </div>
+  </div>
+
+  <div class="sh"><h2>Conditions Non-Negociables</h2><p>3 pre-requis absolus avant la premiere ligne de code</p></div>
+  <div class="cond-grid">
+    <div class="cond-card">
+      <div class="cond-icon">1</div>
+      <div><h4>30 Lettres d'Intention</h4><p>Pas des beta-testeurs &mdash; des engagements financiers d'Ops Managers retail/industrie qui ont essaye et abandonne Power Apps.</p></div>
+    </div>
+    <div class="cond-card">
+      <div class="cond-icon">2</div>
+      <div><h4>CTO Cofondateur Recrute</h4><p>Senior, expertise Microsoft Graph API + IA generative + infra serverless. Sans CTO, le MVP est irrealisable.</p></div>
+    </div>
+    <div class="cond-card">
+      <div class="cond-icon">3</div>
+      <div><h4>DPA + SCCs Anthropic</h4><p>Couverture juridique des transferts hors UE. Aucun DSI francais ne signera sans garantie RGPD/Cloud Act.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ──── AGENTS SA & ARENA ──── -->
+<div class="section" id="s-agents">
+  <div class="sh"><h2>10 Agents Solution Architect</h2><p>Cliquez sur un agent pour voir ses recommandations, decisions cles, livrables et positions dans l'arena</p></div>
+
+  <div class="agents-overview-grid" id="agentGrid"></div>
+  <div id="agentDetail"></div>
+</div>
+
+<!-- ──── TIMELINE ──── -->
+<div class="section" id="s-timeline">
+  <div class="sh"><h2>Timeline Detaillee &mdash; 18 Mois</h2><p>Vue Gantt de chaque workstream, de la Phase A au scale international</p></div>
+  <div class="tl-container">
+    <div class="tl-head">
+      <div></div>
+      <div class="tl-months">
+        <span class="now">M1</span><span class="now">M2</span><span>M3</span><span>M4</span>
+        <span>M5</span><span>M6</span><span>M7</span><span>M8</span><span>M9</span>
+        <span>M10</span><span>M11</span><span>M12</span><span>M13</span><span>M14</span>
+        <span>M15</span><span>M16</span><span>M17</span><span>M18</span>
+      </div>
+    </div>
+
+    <!-- Backend -->
+    <div class="tl-row">
+      <div class="tl-label b-blue">SA-01 Backend</div>
+      <div class="tl-bars">
+        <div class="tl-cell c-blue o9"><div class="tip">Schema PostgreSQL + RLS + API Hono</div></div>
+        <div class="tl-cell c-blue o9"><div class="tip">Sync lecture Excel + JSONB context_graph</div></div>
+        <div class="tl-cell c-blue o8"><div class="tip">Write-back Excel bidirectionnel</div></div>
+        <div class="tl-cell c-blue o8"><div class="tip">App Store backend + Billing Stripe</div></div>
+        <div class="tl-cell c-blue o7"><div class="tip">Migration Neo4j Knowledge Graph</div></div>
+        <div class="tl-cell c-blue o7"><div class="tip">Neo4j queries + enrichissement</div></div>
+        <div class="tl-cell c-blue o6"><div class="tip">Google Sheets API integration</div></div>
+        <div class="tl-cell c-blue o6"><div class="tip">Google Drive sync</div></div>
+        <div class="tl-cell c-blue o5"><div class="tip">API v2 + GraphQL</div></div>
+        <div class="tl-cell c-blue o5"><div class="tip">Marketplace backend</div></div>
+        <div class="tl-cell c-blue o4"><div class="tip">Workflows inter-apps</div></div>
+        <div class="tl-cell c-blue o3"><div class="tip">Apps agentiques backend</div></div>
+        <div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div>
+      </div>
+    </div>
+    <!-- Frontend -->
+    <div class="tl-row">
+      <div class="tl-label b-purple">SA-02 Frontend</div>
+      <div class="tl-bars">
+        <div class="tl-cell c-purple o9"><div class="tip">FormField + DataTable + Design tokens</div></div>
+        <div class="tl-cell c-purple o9"><div class="tip">KPICard + BarChart + FilterBar + Container</div></div>
+        <div class="tl-cell c-purple o8"><div class="tip">6 composants restants Phase B</div></div>
+        <div class="tl-cell c-purple o8"><div class="tip">App Store UI + clone/fork wizard</div></div>
+        <div class="tl-cell c-purple o7"><div class="tip">Cockpit DSI complet</div></div>
+        <div class="tl-cell c-purple o7"><div class="tip">Moteur de themes entreprise</div></div>
+        <div class="tl-cell c-purple o6"><div class="tip">Marketplace UI</div></div>
+        <div class="tl-cell c-purple o6"><div class="tip">Dashboard analytics avance</div></div>
+        <div class="tl-cell c-purple o5"><div class="tip">Apps agentiques UI</div></div>
+        <div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div>
+      </div>
+    </div>
+    <!-- AI/ML -->
+    <div class="tl-row">
+      <div class="tl-label b-cyan">SA-03 AI/ML</div>
+      <div class="tl-bars">
+        <div class="tl-cell c-cyan o9"><div class="tip">Classification Haiku + Inference schema</div></div>
+        <div class="tl-cell c-cyan o9"><div class="tip">Generation contrainte Sonnet 4 + Validation AST</div></div>
+        <div class="tl-cell c-cyan o8"><div class="tip">Few-shot optimization + feedback loop</div></div>
+        <div class="tl-cell c-cyan o8"><div class="tip">Auto-suggestion Knowledge Graph</div></div>
+        <div class="tl-cell c-cyan o7"><div class="tip">Similarite colonnes embeddings</div></div>
+        <div class="tl-cell c-cyan o7"><div class="tip">Multi-LLM fallback routing</div></div>
+        <div class="tl-cell c-cyan o6"><div class="tip">97%+ taux succes optimization</div></div>
+        <div class="tl-cell c-cyan o6"><div class="tip">Predictions temporelles</div></div>
+        <div class="tl-cell c-cyan o5"><div class="tip">Apps agentiques (Temporal.io)</div></div>
+        <div class="tl-cell c-cyan o5"><div class="tip">Digital twin organisation</div></div>
+        <div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div>
+      </div>
+    </div>
+    <!-- Infra -->
+    <div class="tl-row">
+      <div class="tl-label b-green">SA-04 Infra</div>
+      <div class="tl-bars">
+        <div class="tl-cell c-green o9"><div class="tip">Cloudflare Workers + Neon Serverless</div></div>
+        <div class="tl-cell c-green o9"><div class="tip">CI/CD + PostHog + Sentry</div></div>
+        <div class="tl-cell c-green o8"><div class="tip">CDN + cache layer optimisation</div></div>
+        <div class="tl-cell c-green o7"><div class="tip">Multi-region failover</div></div>
+        <div class="tl-cell c-green o6"><div class="tip">Auto-scaling policies</div></div>
+        <div class="tl-cell c-green o5"><div class="tip">Cost optimization continu</div></div>
+        <div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div>
+      </div>
+    </div>
+    <!-- Security -->
+    <div class="tl-row">
+      <div class="tl-label b-amber">SA-05 Security</div>
+      <div class="tl-bars">
+        <div class="tl-cell c-amber o9"><div class="tip">OAuth mode personal + Token Proxy</div></div>
+        <div class="tl-cell c-amber o9"><div class="tip">4 couches isolation + CSP</div></div>
+        <div class="tl-cell c-amber o8"><div class="tip">Admin Consent + SSO Azure AD</div></div>
+        <div class="tl-cell c-amber o8"><div class="tip">Audit trail complet + DPA</div></div>
+        <div class="tl-cell c-amber o7"><div class="tip">Pentest + SOC2 preparation</div></div>
+        <div class="tl-cell c-amber o6"><div class="tip">Google OAuth + SAML</div></div>
+        <div class="tl-cell c-amber o5"><div class="tip">SOC2 Type I certification</div></div>
+        <div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div>
+      </div>
+    </div>
+    <!-- Growth -->
+    <div class="tl-row">
+      <div class="tl-label b-orange">SA-08 Growth</div>
+      <div class="tl-bars">
+        <div class="tl-cell c-orange o9"><div class="tip">Landing page + SEO fondations</div></div>
+        <div class="tl-cell c-orange o9"><div class="tip">Video demo 60s + content engine</div></div>
+        <div class="tl-cell c-orange o8"><div class="tip">PLG funnel + A/B tests onboarding</div></div>
+        <div class="tl-cell c-orange o8"><div class="tip">Microsoft AppSource listing</div></div>
+        <div class="tl-cell c-orange o7"><div class="tip">Boucles virales + referral</div></div>
+        <div class="tl-cell c-orange o7"><div class="tip">LinkedIn Ads + demand gen</div></div>
+        <div class="tl-cell c-orange o6"><div class="tip">Category creation + manifeste</div></div>
+        <div class="tl-cell c-orange o6"><div class="tip">Expansion Benelux content</div></div>
+        <div class="tl-cell c-orange o5"><div class="tip">Google Marketplace listing</div></div>
+        <div class="tl-cell c-orange o5"><div class="tip">Events + community</div></div>
+        <div class="tl-cell c-orange o4"><div class="tip">Scale acquisition</div></div>
+        <div class="tl-cell c-orange o4"><div class="tip">DACH expansion</div></div>
+        <div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div>
+      </div>
+    </div>
+    <!-- Sales -->
+    <div class="tl-row">
+      <div class="tl-label b-red">SA-09 Sales</div>
+      <div class="tl-bars">
+        <div class="tl-cell c-red o9"><div class="tip">50 interviews + DSI Early Access</div></div>
+        <div class="tl-cell c-red o9"><div class="tip">30 LOI + battle cards</div></div>
+        <div class="tl-cell c-red o8"><div class="tip">20 beta entreprises + pricing test</div></div>
+        <div class="tl-cell c-red o8"><div class="tip">50 pilotes gratuits + conversion</div></div>
+        <div class="tl-cell c-red o7"><div class="tip">Premiers clients payants Pro</div></div>
+        <div class="tl-cell c-red o7"><div class="tip">5 Enterprise + 100 Pro</div></div>
+        <div class="tl-cell c-red o6"><div class="tip">Channel MSP/integrateurs</div></div>
+        <div class="tl-cell c-red o6"><div class="tip">Playbook Enterprise scale</div></div>
+        <div class="tl-cell c-red o5"><div class="tip">Levee Seed prep + roadshow</div></div>
+        <div class="tl-cell c-red o5"><div class="tip">Seed closing 1.5-2.5M</div></div>
+        <div class="tl-cell c-red o4"><div class="tip">Benelux + DACH expansion</div></div>
+        <div class="tl-cell c-red o4"><div class="tip">500 clients cible</div></div>
+        <div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div><div class="tl-cell tl-empty"></div>
+      </div>
+    </div>
+
+    <div class="tl-legend">
+      <div class="tl-legend-item"><div class="tl-legend-dot c-blue"></div>Backend</div>
+      <div class="tl-legend-item"><div class="tl-legend-dot c-purple"></div>Frontend</div>
+      <div class="tl-legend-item"><div class="tl-legend-dot c-cyan"></div>AI/ML</div>
+      <div class="tl-legend-item"><div class="tl-legend-dot c-green"></div>Infra</div>
+      <div class="tl-legend-item"><div class="tl-legend-dot c-amber"></div>Security</div>
+      <div class="tl-legend-item"><div class="tl-legend-dot c-orange"></div>Growth</div>
+      <div class="tl-legend-item"><div class="tl-legend-dot c-red"></div>Sales</div>
+    </div>
+  </div>
+</div>
+
+<!-- ──── MILESTONES ──── -->
+<div class="section" id="s-milestones">
+  <div class="sh"><h2>Milestones & Metriques Cles</h2><p>Les 8 jalons critiques de M0 au breakeven</p></div>
+  <div class="ms-grid">
+    <div class="ms-card pa"><div class="ms-date">M0</div><h3>Validation Terrain</h3><p>50 interviews, 30 LOI, CTO recrute, DPA Anthropic</p><div class="ms-metrics"><span class="ms-metric">0 ARR</span><span class="ms-metric">0 clients</span></div></div>
+    <div class="ms-card pa"><div class="ms-date">S4 &mdash; Mois 1</div><h3>Pipeline IA Fonctionnel</h3><p>Pipeline 4 etages, 6 composants, sandbox demo, PostHog integre</p><div class="ms-metrics"><span class="ms-metric">0 ARR</span><span class="ms-metric">Alpha interne</span></div></div>
+    <div class="ms-card pa"><div class="ms-date">S8 &mdash; Mois 2</div><h3>Beta Privee</h3><p>OAuth personal, lecture Excel live, 20 beta-testeurs internes</p><div class="ms-metrics"><span class="ms-metric">500 signups</span><span class="ms-metric">20 beta</span></div></div>
+    <div class="ms-card pb"><div class="ms-date">S12 &mdash; Mois 3</div><h3>App Store + Cockpit</h3><p>Store interne, cockpit DSI basique, 12 composants, 50 beta externes</p><div class="ms-metrics"><span class="ms-metric">2 000 signups</span><span class="ms-metric">50 beta</span></div></div>
+    <div class="ms-card pb"><div class="ms-date">S16 &mdash; Mois 4</div><h3>Launch Commercial</h3><p>Billing Stripe, Enterprise onboarding, templates retail, 20 pilotes</p><div class="ms-metrics"><span class="ms-metric">5K MRR</span><span class="ms-metric">20 pilotes</span></div></div>
+    <div class="ms-card v2"><div class="ms-date">Mois 6</div><h3>Traction PLG</h3><p>100 clients Pro, 5 Enterprise, K-factor &gt;0.3</p><div class="ms-metrics"><span class="ms-metric">30K MRR</span><span class="ms-metric">5K signups</span></div></div>
+    <div class="ms-card v2"><div class="ms-date">M9-12</div><h3>Levee Seed</h3><p>Seed 1.5-2.5M, equipe 8 personnes, expansion Benelux</p><div class="ms-metrics"><span class="ms-metric">100K MRR</span><span class="ms-metric">20K signups</span></div></div>
+    <div class="ms-card v2"><div class="ms-date">M14-16</div><h3>Breakeven</h3><p>85-100 clients payants, auto-suffisance operationnelle</p><div class="ms-metrics"><span class="ms-metric">250K MRR</span><span class="ms-metric">Breakeven</span></div></div>
+  </div>
+</div>
+
+<!-- ──── DELIVERABLES ──── -->
+<div class="section" id="s-deliverables">
+  <div class="sh"><h2>Livrables par C-Level</h2><p>Chaque responsable recoit son playbook operationnel et ses KPIs</p></div>
+
+  <div class="del-section">
+    <h3><div class="del-dot c-blue"></div> CTO &mdash; Tech & Development</h3>
+    <div class="del-list">
+      <div class="del-item"><div><strong>Playbook Tech/Dev</strong> &mdash; Architecture 3 couches, Pipeline IA 4 etages, 12 composants, modele securite, planning S1-S16</div><div class="del-file">Playbook_Tech_Dev.docx</div></div>
+      <div class="del-item"><div><strong>Schema PostgreSQL + RLS</strong> &mdash; Tables tenants, users, apps, app_components, data_sources, context_graph, audit_logs</div></div>
+      <div class="del-item"><div><strong>Pipeline IA</strong> &mdash; Haiku classification, inference deterministe, Sonnet 4 generation contrainte, validation AST</div></div>
+      <div class="del-item"><div><strong>Infra</strong> &mdash; Cloudflare Workers + Neon Serverless + PostHog + Sentry &mdash; cout 208/mois pour 1000 tenants</div></div>
+    </div>
+  </div>
+  <div class="del-section">
+    <h3><div class="del-dot c-pink"></div> CPO &mdash; Product & UX</h3>
+    <div class="del-list">
+      <div class="del-item"><div><strong>Playbook Product/UX</strong> &mdash; Vision, 5 personas, user stories P0-P2, parcours, design system, App Store, cockpit DSI</div><div class="del-file">Playbook_Product_UX.docx</div></div>
+      <div class="del-item"><div><strong>6 User Stories P0</strong> &mdash; Creation app (US-001), Cockpit DSI (US-002), Connect Excel (US-003), Partage (US-004), Souverainete (US-005), Mobile (US-006)</div></div>
+      <div class="del-item"><div><strong>Design System</strong> &mdash; 12 composants atomiques, tokens, theme engine, WCAG 2.1 AA</div></div>
+      <div class="del-item"><div><strong>North Star Metric</strong> &mdash; Weekly Active Apps with 2+ users</div></div>
+    </div>
+  </div>
+  <div class="del-section">
+    <h3><div class="del-dot c-orange"></div> CMO / VP Growth &mdash; Marketing & Growth</h3>
+    <div class="del-list">
+      <div class="del-item"><div><strong>Playbook Marketing/Growth</strong> &mdash; Positionnement, PLG architecture, AARRR funnel, acquisition, brand, A/B testing</div><div class="del-file">Playbook_Marketing_Growth.docx</div></div>
+      <div class="del-item"><div><strong>Repositionnement</strong> &mdash; "L'App Store Interne Gouverne" &mdash; tuer les sous-marques</div></div>
+      <div class="del-item"><div><strong>Funnel PLG</strong> &mdash; Free &rarr; Pro &rarr; Enterprise avec triggers de conversion et K-factor 0.15-0.30</div></div>
+      <div class="del-item"><div><strong>Budget</strong> &mdash; 15K/mois M1-3, 25K/mois M4-6, 40K/mois M7-12 &mdash; total 360K/an</div></div>
+    </div>
+  </div>
+  <div class="del-section">
+    <h3><div class="del-dot c-red"></div> CEO / VP Sales &mdash; Sales & Strategy</h3>
+    <div class="del-list">
+      <div class="del-item"><div><strong>Playbook Sales/Strategy</strong> &mdash; GTM, pricing, unit economics, fundraising, moat, conditions pre-requis</div><div class="del-file">Playbook_Sales_Strategy.docx</div></div>
+      <div class="del-item"><div><strong>Pricing</strong> &mdash; Free (0) + Pro (299/mois) + Team coming soon (49-79) + Enterprise (custom)</div></div>
+      <div class="del-item"><div><strong>Unit Economics</strong> &mdash; Marge brute 95.9%, LTV/CAC Pro 22.8x, breakeven M14-M16</div></div>
+      <div class="del-item"><div><strong>Fundraising</strong> &mdash; Pre-seed 735K &rarr; Seed 1.5-2.5M &rarr; Series A 8-15M</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ──── ECONOMICS ──── -->
+<div class="section" id="s-economics">
+  <div class="sh"><h2>Unit Economics & Scenario Financier</h2><p>Le modele SaaS le plus favorable du segment: 95.9% de marge brute</p></div>
+
+  <div class="kpi-strip">
+    <div class="kpi green"><div class="val">95.9%</div><div class="lbl">Marge brute Pro</div></div>
+    <div class="kpi blue"><div class="val">22.8x</div><div class="lbl">LTV/CAC Pro</div></div>
+    <div class="kpi purple"><div class="val">9.4x</div><div class="lbl">LTV/CAC Enterprise</div></div>
+    <div class="kpi blue"><div class="val">0.031</div><div class="lbl">Cout/app generee</div></div>
+    <div class="kpi green"><div class="val">0.21</div><div class="lbl">Infra/user/mois</div></div>
+    <div class="kpi amber"><div class="val">40K</div><div class="lbl">Burn rate/mois</div></div>
+  </div>
+
+  <div class="sh" style="margin-top:16px;"><h2>Decomposition COGS &mdash; Tier Pro (299/mois)</h2></div>
+  <div class="cogs-grid">
+    <div class="cogs-card"><div class="cv" style="color:var(--blue);">0.36</div><div class="cl">LLM par app</div></div>
+    <div class="cogs-card"><div class="cv" style="color:var(--purple);">0.21</div><div class="cl">Infra/user/mois</div></div>
+    <div class="cogs-card"><div class="cv" style="color:var(--green);">287</div><div class="cl">Marge nette/mois</div></div>
+  </div>
+
+  <div class="sh"><h2>Scenario Financier 18 Mois</h2></div>
+  <table class="econ-table">
+    <tr><th>Mois</th><th>Signups</th><th>Clients Pro</th><th>Enterprise</th><th>MRR</th><th>ARR equiv.</th></tr>
+    <tr><td>M1-2</td><td>500</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><td>M3</td><td>2 000</td><td>15</td><td>0</td><td>4 485</td><td>53 820</td></tr>
+    <tr><td>M6</td><td>5 000</td><td>100</td><td>5</td><td class="highlight">33 900</td><td class="highlight">406 800</td></tr>
+    <tr><td>M9</td><td>20 000</td><td>300</td><td>10</td><td class="highlight">97 700</td><td class="highlight">1 172 400</td></tr>
+    <tr><td>M12</td><td>50 000</td><td>500</td><td>20</td><td class="big">165 500</td><td class="big">1 986 000</td></tr>
+    <tr><td style="color:var(--green);">M14-16 BREAKEVEN</td><td>70 000+</td><td>700+</td><td>30+</td><td class="highlight">250K+</td><td class="highlight">BREAKEVEN</td></tr>
+  </table>
+
+  <div class="sh"><h2>Plan de Financement</h2></div>
+  <div class="fund-grid">
+    <div class="ms-card pa"><div class="ms-date">M0-9</div><h3>Pre-Seed: 300-500K</h3><p>MVP, connexion SharePoint, SSO, 20 beta-testeurs, 50 apps creees</p></div>
+    <div class="ms-card pb"><div class="ms-date">M9-12</div><h3>Seed: 1.5-2.5M</h3><p>50 entreprises payantes, 200K ARR, NPS &gt; 40, equipe 6-8</p></div>
+    <div class="ms-card v2"><div class="ms-date">M24-30</div><h3>Series A: 8-15M</h3><p>500+ entreprises, 2M+ ARR, Benelux+DACH, self-hosting</p></div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+// ═══════════════════════════════════════
+// AGENT DATA — full detail per agent
+// ═══════════════════════════════════════
+const agents = [
+  {
+    id: 'SA-01', name: 'Alexandre Duval', initials: 'AD', color: 'var(--blue)',
+    role: 'Backend & API Lead', score: 95,
+    desc: "Architecte de la couche donnees et de la synchronisation Excel. A concu le schema PostgreSQL multi-tenant avec Row Level Security et le pont bidirectionnel SharePoint.",
+    keyDecisions: [
+      "<strong>PostgreSQL Neon Serverless</strong> comme source de verite transactionnelle avec RLS par tenant_id",
+      "<strong>JSONB context_graph</strong> en remplacement de Neo4j pour le MVP (report V2) &mdash; decision Arena Round 3",
+      "<strong>Hono.js sur Cloudflare Workers</strong> pour l'API &mdash; latence P95 < 200ms, cout quasi-nul",
+      "<strong>Sync bidirectionnelle Excel</strong> via Microsoft Graph API avec delta queries pour minimiser les appels"
+    ],
+    recommendations: [
+      "Commencer par le schema PostgreSQL + RLS des la S1 &mdash; c'est le socle de tout",
+      "Reporter Neo4j en V2 : le JSONB suffit pour le MVP et elimine une dependance operationnelle majeure",
+      "Implementer le write-back Excel en Phase B seulement &mdash; la lecture seule suffit pour prouver la magie",
+      "Prevoir un cache Redis pour les sessions frequentes (templates, schemas) des M6"
+    ],
+    deliverables: [
+      "Schema PostgreSQL complet (8 tables, RLS policies, indexes)",
+      "API Hono.js avec 24 endpoints REST",
+      "Connecteur SharePoint/OneDrive lecture (Phase A) puis ecriture (Phase B)",
+      "App Store backend + integration Stripe Billing"
+    ],
+    arenaDebates: [
+      { round: 3, topic: "Neo4j dans le MVP ?", position: "CONTRE", detail: "A argumente que Neo4j ajoute une dependance operationnelle majeure pour un gain marginal en MVP. Le JSONB context_graph couvre 90% des cas. Score: victoire par consensus." },
+      { round: 1, topic: "6 composants Phase A suffisants ?", position: "POUR", detail: "A valide que 6 composants couvrent 80% des cas d'usage retail. Le backend peut livrer les endpoints pour 6 composants en 4 semaines." }
+    ]
+  },
+  {
+    id: 'SA-02', name: 'Marie Chen', initials: 'MC', color: 'var(--purple)',
+    role: 'Frontend & Design System Lead', score: 95,
+    desc: "Responsable de l'AppRenderer JSON-to-React et des 12 composants atomiques. Garante de la coherence UI, de l'accessibilite WCAG 2.1 AA et du design system.",
+    keyDecisions: [
+      "<strong>12 composants atomiques</strong> avec interfaces TypeScript strictes &mdash; le LLM assemble, ne code pas",
+      "<strong>AppRenderer deterministe</strong> : JSON &rarr; arbre React, zero code libre, zero eval()",
+      "<strong>Design tokens</strong> separes du code &mdash; permet le theming par entreprise sans fork",
+      "<strong>Phase A : 6 composants</strong> (FormField, DataTable, KPICard, BarChart, FilterBar, Container) couvrent 80% des cas"
+    ],
+    recommendations: [
+      "Delivrer FormField + DataTable en premier &mdash; ce sont les 2 composants les plus demandes",
+      "Utiliser Radix UI comme base pour l'accessibilite WCAG 2.1 AA native",
+      "Le clone/fork wizard est critique pour la viralite &mdash; le prioriser en debut Phase B",
+      "Tester chaque composant avec 3 jeux de donnees reels (Leroy Merlin, Bonduelle, Descamps)"
+    ],
+    deliverables: [
+      "6 composants atomiques Phase A avec tests visuels",
+      "AppRenderer JSON-to-React deterministe",
+      "Design tokens + theme engine",
+      "App Store UI + clone/fork wizard (Phase B)"
+    ],
+    arenaDebates: [
+      { round: 1, topic: "6 composants Phase A suffisants ?", position: "POUR", detail: "A demontre avec les 264 pain points que FormField+DataTable+KPICard+BarChart+FilterBar+Container couvrent 80% des demandes terrain. Les 6 restants (PieChart, LineChart, KanbanBoard, DetailView, ImageGallery, PageNav) en Phase B." },
+      { round: 4, topic: "Pricing 2 vs 3 tiers", position: "NEUTRE", detail: "A note que le tier Team (49-79) necessite une UX differente (permissions granulaires) qui complique le frontend. Recommande de le reporter post-MVP." }
+    ]
+  },
+  {
+    id: 'SA-03', name: 'Karim Benali', initials: 'KB', color: 'var(--cyan)',
+    role: 'AI/ML Pipeline Architect', score: 95,
+    desc: "Concepteur du pipeline IA 4 etages qui transforme le langage naturel en apps fonctionnelles. Le coeur de la magie Instack : generation contrainte vs code libre.",
+    keyDecisions: [
+      "<strong>Pipeline 4 etages</strong> : Classification Haiku &rarr; Inference schema &rarr; Generation Sonnet 4 (tool_use JSON strict) &rarr; Validation AST + Rendu React",
+      "<strong>Generation contrainte</strong> : le LLM assemble des composants pre-securises en JSON &mdash; taux succes 92-95% vs 82-87% code libre",
+      "<strong>Few-shot library</strong> : base d'exemples par secteur (retail, industrie, logistique) pour ameliorer la pertinence",
+      "<strong>Fallback routing</strong> : si Sonnet echoue, retry Haiku simplifie avant de remonter une erreur"
+    ],
+    recommendations: [
+      "L'etage 1 (Classification Haiku) est le plus critique &mdash; un mauvais routage cascade en echec total",
+      "Instrumenter chaque etage avec des metriques PostHog pour identifier les goulots",
+      "Le benchmark de taux de succes doit etre > 90% avant la beta &mdash; sinon la magie ne fonctionne pas",
+      "Collecter les feedbacks utilisateur pour enrichir la few-shot library en continu"
+    ],
+    deliverables: [
+      "Pipeline IA 4 etages fonctionnel (Phase A)",
+      "Few-shot library avec 50+ exemples par vertical",
+      "Systeme de feedback loop pour amelioration continue",
+      "Multi-LLM fallback routing (V2)"
+    ],
+    arenaDebates: [
+      { round: 1, topic: "6 composants Phase A suffisants ?", position: "POUR avec reserve", detail: "A confirme que 6 composants simplifient enormement le schema JSON de generation. Moins de composants = moins d'ambiguite pour le LLM = taux succes plus eleve. Reserve : prevoir un fallback 'composant generique' si le LLM ne matche aucun des 6." },
+      { round: 3, topic: "Neo4j dans le MVP ?", position: "CONTRE", detail: "A argumente que le Knowledge Graph enrichirait la suggestion d'apps, mais que le JSONB suffit pour le contexte de generation en MVP. Les embeddings colonnes sont plus impactants et ne necessitent pas Neo4j." }
+    ]
+  },
+  {
+    id: 'SA-04', name: 'Sophie Laurent', initials: 'SL', color: 'var(--green)',
+    role: 'Infrastructure & DevOps Lead', score: 96,
+    desc: "Architecte infra serverless zero-ops. A optimise le stack pour un cout de 208/mois a 1000 tenants tout en garantissant une disponibilite 99.9%.",
+    keyDecisions: [
+      "<strong>Cloudflare Workers</strong> pour le compute edge &mdash; latence < 50ms worldwide, pas de serveur a gerer",
+      "<strong>Neon Serverless PostgreSQL</strong> &mdash; scale-to-zero, branches par environnement, cout proportionnel",
+      "<strong>PostHog + Sentry</strong> pour l'observabilite complete (analytics + erreurs + session replay)",
+      "<strong>208/mois</strong> pour 1000 tenants : Neon 69 + Cloudflare 25 + PostHog 0 + Sentry 29 + divers 85"
+    ],
+    recommendations: [
+      "Le stack serverless est non-negociable pour une startup &mdash; zero ops engineering avant M12",
+      "Utiliser les branches Neon pour les environnements preview PR &mdash; cout quasi-nul",
+      "Planifier le multi-region (EU-West + EU-Central) des que le premier Enterprise signe",
+      "Le CDN Cloudflare gratuit couvre les assets statiques &mdash; pas de S3 necessaire avant 10K users"
+    ],
+    deliverables: [
+      "Infrastructure Cloudflare Workers + Neon (S1-S2)",
+      "Pipeline CI/CD GitHub Actions (S2)",
+      "Stack observabilite PostHog + Sentry (S3)",
+      "Multi-region failover (V2)"
+    ],
+    arenaDebates: [
+      { round: 3, topic: "Neo4j dans le MVP ?", position: "CONTRE (fort)", detail: "A fourni l'argument decisif : Neo4j AuraDB ajoute 99/mois minimum + une dependance operationnelle complexe (migrations, monitoring). Pour le MVP, le JSONB PostgreSQL est suffisant et deja dans le stack." },
+      { round: 2, topic: "Sandbox vs OAuth first ?", position: "SANDBOX d'abord", detail: "A recommande le sandbox avec donnees demo en Phase A S1-S4, puis OAuth personal en S5-S8. Raison : le sandbox elimine les problemes de tokens et permissions pendant le dev initial." }
+    ]
+  },
+  {
+    id: 'SA-05', name: 'Thomas Weber', initials: 'TW', color: 'var(--amber)',
+    role: 'Security & Compliance Architect', score: 96,
+    desc: "Garant de la securite 4 couches et de la conformite RGPD/Cloud Act. A concu le modele de confiance zero qui permet aux DSI de valider Instack.",
+    keyDecisions: [
+      "<strong>4 couches isolation</strong> : V8 Isolate (Cloudflare) + CSP Header strict + iframe sandbox + domaine separe",
+      "<strong>OAuth mode personal d'abord</strong> (Phase A) puis Admin Consent (Phase B) &mdash; reduit la friction initiale",
+      "<strong>Token Proxy</strong> : jamais de token Microsoft cote client, tout transite par le backend chiffre",
+      "<strong>DPA + SCCs Anthropic</strong> comme condition non-negociable avant tout developpement"
+    ],
+    recommendations: [
+      "Le mode personal OAuth en Phase A permet de tester sans impliquer le DSI &mdash; critique pour l'adoption bottom-up",
+      "Implementer l'audit trail des S1 &mdash; pas en Phase B. Les DSI le demanderont immediatement",
+      "Prevoir le pentest externe a S14 &mdash; necessaire pour les premiers Enterprise",
+      "Le domaine separe pour les apps generees (*.apps.instack.io) est non-negociable pour le CSP"
+    ],
+    deliverables: [
+      "Modele securite 4 couches (S1-S4)",
+      "OAuth personal + Token Proxy (S5-S8)",
+      "Admin Consent + SSO Azure AD (Phase B)",
+      "Audit trail + preparation SOC2 (V2)"
+    ],
+    arenaDebates: [
+      { round: 2, topic: "Sandbox vs OAuth first ?", position: "SANDBOX + OAuth en parallele", detail: "A propose un compromis : sandbox avec donnees demo par defaut, mais implementer le Token Proxy des S3 pour que l'OAuth soit pret en S5. Argument : la securite ne se retrofite pas, elle se conçoit des le debut." },
+      { round: 5, topic: "Cockpit DSI Phase A vs B ?", position: "READ-ONLY en Phase A", detail: "A argumente qu'un cockpit DSI read-only en Phase A (qui apps, quel acces, quelles donnees) rassure les DSI sans complexifier le dev. Le cockpit complet avec kill-switch en Phase B." }
+    ]
+  },
+  {
+    id: 'SA-06', name: 'Elena Rossi', initials: 'ER', color: 'var(--pink)',
+    role: 'Product Management Lead', score: 97,
+    desc: "Plus haut score de l'arena (97/100). A defini le scope MVP avec une rigueur RICE, tranche les debats de priorisation, et pose la North Star Metric.",
+    keyDecisions: [
+      "<strong>North Star Metric</strong> : 'Weekly Active Apps with 2+ users' &mdash; combine creation, partage et retention",
+      "<strong>Aha Moment</strong> : app creee + partagee + 2 users en moins de 48h &mdash; tout le produit optimise pour ca",
+      "<strong>Phase A = prouver la magie</strong>, Phase B = convertir et gouverner &mdash; pas de melange de missions",
+      "<strong>6 User Stories P0</strong> selectionnees par RICE parmi les 18 candidates"
+    ],
+    recommendations: [
+      "Ne pas ajouter de fonctionnalites en Phase A &mdash; le scope freeze est sacre",
+      "Le KPI #1 n'est pas le nombre d'apps creees mais le nombre d'apps UTILISEES par d'autres",
+      "Chaque sprint doit etre mesure contre le 'time-to-aha' &mdash; objectif < 5 minutes",
+      "Reporter le tier Team (49-79) post-MVP &mdash; il faut d'abord valider le pricing Pro a 299"
+    ],
+    deliverables: [
+      "Scope MVP Phase A/B avec user stories priorisees RICE",
+      "Definition du Aha Moment et metriques",
+      "Framework de priorisation pour le backlog post-MVP",
+      "Spec fonctionnelle cockpit DSI"
+    ],
+    arenaDebates: [
+      { round: 4, topic: "Pricing 2 vs 3 tiers", position: "2 TIERS d'abord", detail: "A tranche le debat : Free + Pro en Phase A/B, Team en V2. Argument RICE : le tier Team ajoute de la complexite produit (permissions, facturation par siege) pour un segment non-valide. Il faut d'abord prouver le willingness-to-pay a 299." },
+      { round: 5, topic: "Cockpit DSI Phase A vs B ?", position: "PHASE A read-only", detail: "A impose le cockpit DSI read-only en Phase A malgre la resistance de l'equipe Growth. Argument : sans visibilite DSI, pas d'Admin Consent en Phase B. Le cockpit est un pre-requis, pas un nice-to-have." }
+    ]
+  },
+  {
+    id: 'SA-07', name: 'Lucas Martin', initials: 'LM', color: 'var(--purple)',
+    role: 'UX/Design Lead', score: 95,
+    desc: "Designer des parcours utilisateur pour les 5 personas Instack. A optimise l'onboarding pour atteindre le Aha Moment en moins de 5 minutes.",
+    keyDecisions: [
+      "<strong>Parcours 5 personas</strong> : Ops Manager (Leroy Merlin), Resp. Qualite (Bonduelle), DSI (Fournier), DirMag (Descamps), IT (Maisons du Monde)",
+      "<strong>Onboarding en 3 etapes</strong> : Upload Excel &rarr; Decrire le besoin &rarr; Voir l'app &mdash; objectif < 90 secondes",
+      "<strong>Zero-UI pour la creation</strong> : l'interface de creation est un chat, pas un form builder",
+      "<strong>App Store 'Netflix-like'</strong> : decouverte par categorie, populaire, recent, recommande"
+    ],
+    recommendations: [
+      "L'onboarding doit etre testable sans compte &mdash; mode 'essayer sans inscription' avec donnees demo",
+      "Le chat de creation doit montrer un preview live pendant la conversation &mdash; c'est la magie",
+      "L'App Store doit avoir une recherche par probleme ('suivi stock', 'planning equipe') pas par composant",
+      "Tester les 5 parcours avec des utilisateurs reels avant la beta &mdash; pas juste des personas papier"
+    ],
+    deliverables: [
+      "Wireframes parcours onboarding (S1-S2)",
+      "UI Kit + composants Figma (S2-S4)",
+      "Prototype App Store (Phase B S1-S2)",
+      "Tests utilisateurs avec 5 entreprises pilotes"
+    ],
+    arenaDebates: [
+      { round: 1, topic: "6 composants Phase A suffisants ?", position: "POUR", detail: "A valide depuis l'angle UX : 6 composants permettent de construire 80% des apps demandees par les Ops Managers. Plus de composants = plus de choix = plus de confusion pour l'IA et l'utilisateur." },
+      { round: 5, topic: "Cockpit DSI Phase A vs B ?", position: "PHASE A read-only", detail: "A soutenu le cockpit read-only avec un design minimaliste : tableau de bord simple listant apps, createurs, sources de donnees. Argument : un DSI qui voit ce qui se passe est un DSI qui laisse faire." }
+    ]
+  },
+  {
+    id: 'SA-08', name: 'Camille Dubois', initials: 'CD', color: 'var(--orange)',
+    role: 'Growth & Marketing Lead', score: 95,
+    desc: "Stratege PLG et architecte des boucles de croissance. A defini le positionnement 'App Store Interne Gouverne' et le funnel AARRR complet.",
+    keyDecisions: [
+      "<strong>Positionnement</strong> : 'L'App Store Interne Gouverne' &mdash; abandoner 'apps jetables', trop reducteur",
+      "<strong>K-factor realiste</strong> : 0.15-0.30 (pas 0.5+ comme dans le doc initial) &mdash; chaque app partagee ramene 0.15-0.30 nouveaux createurs",
+      "<strong>5 boucles virales</strong> : Share-to-use, Template clone, DSI approve-to-scale, Cross-team discover, Success story",
+      "<strong>Scoring engagement 0-100</strong> pour identifier les champions et les comptes a risque"
+    ],
+    recommendations: [
+      "La video demo 60s est le #1 asset marketing &mdash; a produire AVANT le lancement beta",
+      "Ne pas investir en paid acquisition avant M4 &mdash; le PLG doit d'abord prouver son efficacite organique",
+      "Microsoft AppSource est le canal #1 d'acquisition pour les PME Office 365 &mdash; listing obligatoire en Phase B",
+      "Le manifeste 'Category Creation' (pourquoi les internal app stores sont l'avenir) est un levier PR puissant"
+    ],
+    deliverables: [
+      "Positionnement et messaging framework",
+      "Landing page + SEO fondations (M1)",
+      "Video demo 60s (M2)",
+      "PLG funnel AARRR + dashboards (M3-M4)"
+    ],
+    arenaDebates: [
+      { round: 4, topic: "Pricing 2 vs 3 tiers", position: "3 TIERS (Free+Team+Enterprise)", detail: "A plaide pour un tier Team a 49-79 pour reduire le gap Free &rarr; Pro (299). Argument PLG : le saut de 0 a 299 est trop grand. A ete mis en minorite &mdash; le consensus a ete de reporter le tier Team post-MVP." },
+      { round: 5, topic: "Cockpit DSI Phase A vs B ?", position: "PHASE B uniquement", detail: "A argue que le cockpit DSI cannibalise le temps de dev sur le PLG en Phase A. Mise en minorite par le consensus SA-06/SA-05/SA-07 qui ont impose le read-only en Phase A." }
+    ]
+  },
+  {
+    id: 'SA-09', name: 'Pierre Moreau', initials: 'PM', color: 'var(--red)',
+    role: 'Sales & GTM Lead', score: 96,
+    desc: "Architecte Go-To-Market et stratege de vente. A designe le programme DSI Early Access et le modele de conversion bottom-up unique a Instack.",
+    keyDecisions: [
+      "<strong>DSI Early Access</strong> : programme d'acces privilegie pour 20 DSI qui deviennent co-createurs du cockpit",
+      "<strong>ICP valide</strong> : Retail multi-sites + industrie, 200-1000 employes, France + Benelux, persona Ops Manager",
+      "<strong>Bottom-up sales</strong> : l'Ops Manager adopte (PLG), puis le DSI valide (cockpit), puis l'Enterprise signe",
+      "<strong>Channel AppSource/MSP</strong> en V2 &mdash; pas de channel indirect avant d'avoir valide le direct"
+    ],
+    recommendations: [
+      "Les 30 LOI doivent venir d'Ops Managers qui ont reellement essaye ET abandonne Power Apps",
+      "Le pricing Pro a 299 doit etre valide par 10 interviews de willingness-to-pay AVANT de coder le billing",
+      "Preparer les battle cards vs Power Apps, Retool, Appsheet des M1 &mdash; les DSI compareront",
+      "La levee Seed doit etre preparee a M9 meme si le closing est a M12 &mdash; les roadshows prennent 3 mois"
+    ],
+    deliverables: [
+      "Programme DSI Early Access (M0)",
+      "30 LOI + battle cards (M1-M2)",
+      "Playbook de conversion beta &rarr; payant (M3-M4)",
+      "Pipeline Seed + pitch deck (M9)"
+    ],
+    arenaDebates: [
+      { round: 4, topic: "Pricing 2 vs 3 tiers", position: "2 TIERS + gap analysis", detail: "A soutenu Free + Pro a 299 mais a insiste sur la necessite d'un 'bridge program' : offre speciale 99/mois pour les 50 premiers clients qui signent un engagement 12 mois. Permet de valider le willingness-to-pay sans creer un tier permanent." },
+      { round: 2, topic: "Sandbox vs OAuth first ?", position: "SANDBOX d'abord", detail: "A argumente du point de vue commercial : les LOI sont plus faciles a obtenir si les prospects peuvent tester avec des donnees demo sans impliquer leur IT. Le sandbox baisse la friction d'achat." }
+    ]
+  },
+  {
+    id: 'SA-10', name: 'Isabelle Fournier', initials: 'IF', color: 'var(--teal)',
+    role: 'Strategy & Business Lead', score: 97,
+    desc: "Stratege business et architecte financier. Co-plus-haut-score (97/100) avec SA-06. A cadre le timing de marche, les unit economics, et le plan de financement.",
+    keyDecisions: [
+      "<strong>Fenetre critique 12-18 mois</strong> : Microsoft Copilot Quick Apps arrive &mdash; Instack doit avoir un moat (gouvernance DSI + data souveraine) avant",
+      "<strong>GO CONDITIONNEL</strong> : feu vert uniquement si les 3 conditions sont remplies &mdash; pas de compromis",
+      "<strong>TAM 13.4B$ low-code</strong>, SAM 630M EU, SOM 50M France+Benelux &mdash; marche suffisant si execution rapide",
+      "<strong>Marge brute 95.9%</strong> validee par decomposition COGS ligne par ligne &mdash; le meilleur ratio du segment"
+    ],
+    recommendations: [
+      "Ne jamais communiquer le score externe de 66/100 du War Room &mdash; corriger les faiblesses identifiees d'abord",
+      "Le moat reel est le Knowledge Graph (V2) + les templates communautaires &mdash; pas la technologie IA seule",
+      "Pre-seed 735K max &mdash; au-dela, la dilution est trop forte pour un produit non lance",
+      "La metrique #1 pour les investisseurs : le nombre d'apps reellement utilisees par semaine, pas les signups"
+    ],
+    deliverables: [
+      "Plan financier 18 mois avec scenarios bear/base/bull",
+      "Benchmark concurrentiel (Power Apps, Retool, Appsheet, Glide)",
+      "Pre-seed pitch deck (M0)",
+      "Seed preparation + roadshow timeline (M9-M12)"
+    ],
+    arenaDebates: [
+      { round: 3, topic: "Neo4j dans le MVP ?", position: "CONTRE (decisif)", detail: "A fourni l'argument business : Neo4j est un moat V2, pas une necessite MVP. Le reporter permet de livrer le MVP 3 semaines plus tot et de reduire le pre-seed de 100K. Le Knowledge Graph devient le differenciateur de la levee Seed." },
+      { round: 4, topic: "Pricing 2 vs 3 tiers", position: "2 TIERS + bridge", detail: "A soutenu le modele 2 tiers avec le bridge program de SA-09. Argument financier : a 299/mois avec 95.9% de marge, il faut seulement 85 clients pour le breakeven. Un tier Team a 49-79 repousse le breakeven a 250+ clients." }
+    ]
+  }
+];
+
+// ═══════════════════════════════════════
+// TAB NAVIGATION
+// ═══════════════════════════════════════
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('s-' + tab.dataset.target).classList.add('active');
+  });
+});
+
+// ═══════════════════════════════════════
+// AGENT GRID + DETAIL
+// ═══════════════════════════════════════
+const grid = document.getElementById('agentGrid');
+const detail = document.getElementById('agentDetail');
+let selectedAgent = null;
+
+function renderGrid() {
+  grid.innerHTML = agents.map((a, i) => `
+    <div class="agent-mini ${selectedAgent === i ? 'selected' : ''}" data-idx="${i}">
+      <div class="am-top">
+        <div class="am-avatar" style="background:${a.color};">${a.initials}</div>
+        <div>
+          <div class="am-name">${a.name}</div>
+          <div class="am-role">${a.id} &mdash; ${a.role.split(' ')[0]}</div>
+        </div>
+      </div>
+      <div class="am-score">
+        <div class="am-score-track"><div class="am-score-fill" style="width:${a.score}%;background:${a.score >= 97 ? 'var(--green)' : a.score >= 96 ? 'var(--blue)' : 'var(--text-muted)'}"></div></div>
+        <span class="am-score-val" style="color:${a.score >= 97 ? 'var(--green)' : a.score >= 96 ? 'var(--blue)' : 'var(--text-secondary)'}">${a.score}/100</span>
+      </div>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.agent-mini').forEach(card => {
+    card.addEventListener('click', () => {
+      const idx = parseInt(card.dataset.idx);
+      selectedAgent = selectedAgent === idx ? null : idx;
+      renderGrid();
+      renderDetail();
+    });
+  });
+}
+
+function renderDetail() {
+  if (selectedAgent === null) {
+    detail.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--text-muted);font-size:14px;">Selectionnez un agent ci-dessus pour voir ses recommandations, decisions cles et positions dans l\'arena</div>';
+    return;
+  }
+  const a = agents[selectedAgent];
+  const scoreColor = a.score >= 97 ? 'var(--green)' : a.score >= 96 ? 'var(--blue)' : 'var(--text-secondary)';
+
+  detail.innerHTML = `
+    <div class="agent-detail">
+      <div class="agent-detail-header">
+        <div class="ad-avatar" style="background:${a.color};">${a.initials}</div>
+        <div class="ad-info">
+          <h3>${a.name}</h3>
+          <div class="ad-role">${a.id} &mdash; ${a.role}</div>
+          <div class="ad-desc">${a.desc}</div>
+        </div>
+        <div class="ad-score-big">
+          <div class="num" style="color:${scoreColor};">${a.score}</div>
+          <div class="of">/ 100</div>
+        </div>
+      </div>
+      <div class="agent-detail-body">
+        <div class="ad-section">
+          <h4>Decisions Architecturales Cles</h4>
+          <ul>${a.keyDecisions.map(d => `<li style="border-color:${a.color};">${d}</li>`).join('')}</ul>
+        </div>
+        <div class="ad-section">
+          <h4>Recommandations</h4>
+          <ul>${a.recommendations.map(r => `<li>${r}</li>`).join('')}</ul>
+        </div>
+        <div class="ad-section">
+          <h4>Livrables</h4>
+          <ul>${a.deliverables.map(d => `<li>${d}</li>`).join('')}</ul>
+        </div>
+        <div class="ad-section">
+          <h4>Positions Arena</h4>
+          <ul>${a.arenaDebates.map(d => `
+            <li style="border-color:${d.position.includes('CONTRE') ? 'var(--red)' : d.position.includes('POUR') ? 'var(--green)' : 'var(--amber)'};">
+              <strong>Round ${d.round} &mdash; ${d.topic}</strong><br>
+              <span class="arena-pos" style="display:inline-block;margin:4px 0;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;
+                background:${d.position.includes('CONTRE') ? 'var(--red-light)' : d.position.includes('POUR') ? 'var(--green-light)' : 'var(--amber-light)'};
+                color:${d.position.includes('CONTRE') ? 'var(--red)' : d.position.includes('POUR') ? 'var(--green)' : 'var(--amber)'};">
+                ${d.position}
+              </span><br>
+              <span style="font-size:12px;color:var(--text-secondary);">${d.detail}</span>
+            </li>
+          `).join('')}</ul>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+renderGrid();
+renderDetail();
+
+// Select first agent by default
+selectedAgent = 0;
+renderGrid();
+renderDetail();
+</script>
+</body>
+</html>
+
+```
+
+</details>
