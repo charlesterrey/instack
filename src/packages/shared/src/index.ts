@@ -8,6 +8,7 @@ export * from './types/app.types';
 export * from './types/data-source.types';
 export * from './types/context-graph.types';
 export * from './types/audit.types';
+export * from './types/auth.types';
 
 // Schemas
 export * from './schemas/tenant.schema';
@@ -16,6 +17,7 @@ export * from './schemas/app.schema';
 export * from './schemas/data-source.schema';
 export * from './schemas/context-graph.schema';
 export * from './schemas/audit.schema';
+export * from './schemas/auth.schema';
 
 // Constants
 export * from './constants/archetypes';

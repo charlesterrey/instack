@@ -44,6 +44,13 @@ export const users = pgTable(
       .notNull()
       .default('creator'),
     m365UserId: text('m365_user_id').notNull(),
+    encryptedAccessToken: text('encrypted_access_token'),
+    encryptedRefreshToken: text('encrypted_refresh_token'),
+    tokenIv: text('token_iv'),
+    tokenTag: text('token_tag'),
+    refreshTokenIv: text('refresh_token_iv'),
+    refreshTokenTag: text('refresh_token_tag'),
+    tokenExpiresAt: timestamp('token_expires_at', { withTimezone: true }),
     lastActiveAt: timestamp('last_active_at', { withTimezone: true }),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   },

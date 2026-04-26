@@ -1,5 +1,13 @@
-import "@/styles/globals.css";
+import '@/styles/globals.css';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { App } from './App';
 
-// @instack/web — Entry point
-// Skeleton — implementation in S02+
-export {};
+const root = document.getElementById('root');
+if (root) {
+  createRoot(root).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  );
+}

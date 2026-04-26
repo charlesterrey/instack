@@ -3,7 +3,10 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": ".",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "exactOptionalPropertyTypes": false,
+    "lib": ["ES2022"],
+    "types": ["@cloudflare/workers-types"]
   },
   "include": ["src/**/*.ts", "drizzle/**/*.ts"]
 }
