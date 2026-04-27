@@ -5,3 +5,13 @@ compatibility_flags = ["nodejs_compat"]
 
 [vars]
 ENVIRONMENT = "development"
+
+# KV Namespace for sync data cache (5min TTL)
+[[kv_namespaces]]
+binding = "DATA_CACHE"
+id = "placeholder-create-via-wrangler-kv-namespace-create"
+preview_id = "placeholder-preview"
+
+# Cron trigger for sync polling (every 5 minutes)
+[triggers]
+crons = ["*/5 * * * *"]

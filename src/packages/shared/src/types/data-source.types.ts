@@ -2,7 +2,7 @@
 export type DataSourceType = 'excel_file' | 'sharepoint_list' | 'demo_data';
 
 /** Sync lifecycle status */
-export type SyncStatus = 'pending' | 'syncing' | 'synced' | 'error';
+export type SyncStatus = 'pending' | 'syncing' | 'synced' | 'error' | 'disconnected';
 
 /** Configuration for how a data source syncs */
 export interface SyncConfig {
@@ -10,6 +10,8 @@ export interface SyncConfig {
   readonly range?: string;
   readonly refreshInterval?: number;
   readonly columns?: readonly string[];
+  readonly lastContentHash?: string;
+  readonly lastModifiedAt?: string;
 }
 
 /** A data source connection record */
@@ -23,4 +25,6 @@ export interface DataSource {
   readonly lastSyncedAt: Date | null;
   readonly syncStatus: SyncStatus;
   readonly createdAt: Date;
+  readonly name?: string;
+  readonly creatorId?: string;
 }

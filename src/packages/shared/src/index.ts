@@ -9,6 +9,7 @@ export * from './types/data-source.types';
 export * from './types/context-graph.types';
 export * from './types/audit.types';
 export * from './types/auth.types';
+export * from './types/sync.types';
 
 // Schemas
 export * from './schemas/tenant.schema';

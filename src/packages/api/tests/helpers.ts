@@ -1,5 +1,5 @@
 import { createJWT } from '../src/lib/jwt';
-import app from '../src/index';
+import { app } from '../src/index';
 
 export const TEST_ENV = {
   DATABASE_URL: 'postgresql://localhost:5432/test',

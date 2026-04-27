@@ -158,7 +158,7 @@ export const dataSources = pgTable(
     syncConfig: jsonb('sync_config').notNull().default({}),
     lastSyncedAt: timestamp('last_synced_at', { withTimezone: true }),
     syncStatus: text('sync_status', {
-      enum: ['pending', 'syncing', 'synced', 'error'],
+      enum: ['pending', 'syncing', 'synced', 'error', 'disconnected'],
     })
       .notNull()
       .default('pending'),

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import app from '../src/index';
+import { app } from '../src/index';
 import { TEST_ENV, TENANT_A_ADMIN, TENANT_A_CREATOR, TENANT_A_VIEWER, TENANT_B_ADMIN, authRequest } from './helpers';
 
 /**

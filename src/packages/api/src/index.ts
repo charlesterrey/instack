@@ -12,6 +12,8 @@ import { tenantsRoutes } from './routes/tenants.routes';
 import { dataSourcesRoutes } from './routes/data-sources.routes';
 import { generationRoutes } from './routes/generation.routes';
 import { graphProxyRoutes } from './routes/graph-proxy.routes';
+import { appDataRoutes } from './routes/app-data.routes';
+import { handleScheduled } from './cron/sync-scheduler';
 import { logger } from './lib/logger';
 import { validateEnv } from './lib/env';
 
@@ -26,6 +28,7 @@ interface Bindings {
   TOKEN_ENCRYPTION_KEY: string;
   API_BASE_URL: string;
   FRONTEND_URL: string;
+  DATA_CACHE: unknown;
   [key: string]: unknown;
 }
 
@@ -81,6 +84,7 @@ app.route('/api/tenants', tenantsRoutes);
 app.route('/api/data-sources', dataSourcesRoutes);
 app.route('/api/generate', generationRoutes);
 app.route('/api/graph-proxy', graphProxyRoutes);
+app.route('/api/apps', appDataRoutes);
 
 // 404 handler
 app.notFound((c) => {
@@ -89,4 +93,11 @@ app.notFound((c) => {
 
 logger.info('instack API initialized');
 
-export default app;
+// Named export for tests (import app from './index')
+export { app };
+
+// Workers export with fetch + scheduled handlers
+export default {
+  fetch: app.fetch,
+  scheduled: handleScheduled,
+};

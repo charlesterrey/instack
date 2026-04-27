@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import app from '../src/index';
+import { app } from '../src/index';
 
 const TEST_ENV = {
   DATABASE_URL: 'postgresql://localhost:5432/test',
