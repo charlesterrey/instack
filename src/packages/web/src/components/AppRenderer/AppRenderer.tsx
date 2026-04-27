@@ -258,7 +258,7 @@ export function AppRenderer({ schema, data = [], className }: AppRendererProps):
               key={component.id}
               data-unknown-component={component.type}
               style={computeComponentStyle(component.position)}
-              className="rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-700"
+              className="rounded-lg bg-utility-yellow-50 p-4 text-sm text-utility-yellow-700 ring-1 ring-utility-yellow-200 ring-inset"
             >
               Composant non supporte: {component.type}
             </div>

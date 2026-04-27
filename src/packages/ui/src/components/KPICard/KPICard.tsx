@@ -192,7 +192,8 @@ function Sparkline({ data, color, width = SPARKLINE_DEFAULTS.width, height = SPA
     return `${String(x)},${String(y)}`;
   });
 
-  const strokeColor = color ?? 'var(--color-brand-500)';
+  // Use explicit color if provided, otherwise default to Untitled UI brand token class
+  const useClassColor = color === undefined;
 
   return (
     <svg
@@ -206,7 +207,8 @@ function Sparkline({ data, color, width = SPARKLINE_DEFAULTS.width, height = SPA
     >
       <polyline
         points={points.join(' ')}
-        stroke={strokeColor}
+        stroke={useClassColor ? undefined : color}
+        className={useClassColor ? 'stroke-utility-brand-500' : undefined}
         strokeWidth={SPARKLINE_DEFAULTS.strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -255,41 +257,46 @@ interface SizeConfig {
   title: string;
   value: string;
   badge: string;
+  iconWrapper: string;
   sparklineWidth: number;
   sparklineHeight: number;
 }
 
 const SIZE_MAP: Record<NonNullable<KPICardProps['size']>, SizeConfig> = {
   sm: {
-    container: 'p-3 gap-2',
-    title: 'text-xs font-medium',
+    container: 'p-4 gap-2',
+    title: 'text-sm font-medium',
     value: 'text-lg font-semibold',
     badge: 'text-xs gap-0.5 px-1.5 py-0.5',
+    iconWrapper: 'size-8 rounded-lg',
     sparklineWidth: 60,
     sparklineHeight: 24,
   },
   md: {
-    container: 'p-4 gap-3',
+    container: 'p-5 gap-3',
     title: 'text-sm font-medium',
     value: 'text-display-xs font-semibold',
     badge: 'text-sm gap-1 px-2 py-0.5',
+    iconWrapper: 'size-10 rounded-lg',
     sparklineWidth: 80,
     sparklineHeight: 32,
   },
   lg: {
     container: 'p-6 gap-4',
-    title: 'text-md font-medium',
+    title: 'text-sm font-medium',
     value: 'text-display-sm font-semibold',
     badge: 'text-sm gap-1 px-2.5 py-1',
+    iconWrapper: 'size-12 rounded-xl',
     sparklineWidth: 100,
     sparklineHeight: 40,
   },
 };
 
+/** Untitled UI utility color classes for trend badges */
 const CHANGE_TYPE_STYLES: Record<NonNullable<KPICardProps['changeType']>, string> = {
-  increase: 'text-fg-success-primary bg-bg-success-primary',
-  decrease: 'text-fg-error-primary bg-bg-error-primary',
-  neutral: 'text-fg-tertiary bg-bg-tertiary',
+  increase: 'text-utility-green-700 bg-utility-green-50',
+  decrease: 'text-utility-red-700 bg-utility-red-50',
+  neutral: 'text-utility-neutral-700 bg-utility-neutral-50',
 };
 
 // ── Component ─────────────────────────────────────────────────────────
@@ -302,7 +309,7 @@ const CHANGE_TYPE_STYLES: Record<NonNullable<KPICardProps['changeType']>, string
  * - Trend indicator with colored arrow and percentage change
  * - Optional mini sparkline chart (pure SVG, no dependencies)
  * - Three size variants: sm, md, lg
- * - Semantic design tokens from Untitled UI
+ * - Untitled UI semantic design token classes throughout
  */
 export function KPICard({
   id,
@@ -326,18 +333,25 @@ export function KPICard({
       data-id={id}
       className={[
         'flex flex-col w-full',
-        'rounded-xl border border-border-secondary bg-bg-primary shadow-xs',
+        'rounded-xl bg-primary shadow-xs ring-1 ring-secondary',
         sizeConfig.container,
       ].join(' ')}
     >
       {/* Header: icon + title */}
       <div className="flex items-center gap-2">
         {icon != null && (
-          <span className="shrink-0 text-fg-quaternary" data-testid="kpi-icon">
+          <span
+            className={[
+              'inline-flex items-center justify-center shrink-0',
+              'bg-utility-brand-50 text-utility-brand-700',
+              sizeConfig.iconWrapper,
+            ].join(' ')}
+            data-testid="kpi-icon"
+          >
             {icon}
           </span>
         )}
-        <span className={['text-text-tertiary truncate', sizeConfig.title].join(' ')}>
+        <span className={['text-secondary truncate', sizeConfig.title].join(' ')}>
           {title}
         </span>
       </div>
@@ -346,7 +360,7 @@ export function KPICard({
       <div className="flex items-end justify-between gap-3">
         <div className="flex flex-col gap-1 min-w-0">
           <span
-            className={['text-text-primary tracking-tight', sizeConfig.value].join(' ')}
+            className={['text-primary tracking-tight', sizeConfig.value].join(' ')}
             data-testid="kpi-value"
           >
             {formattedValue}
@@ -367,7 +381,7 @@ export function KPICard({
                 {change.percent}%
               </span>
               {previousValue !== undefined && (
-                <span className="text-xs text-text-quaternary">
+                <span className="text-xs text-tertiary">
                   vs prev.
                 </span>
               )}
@@ -389,7 +403,7 @@ export function KPICard({
       {/* Description */}
       {description != null && description.length > 0 && (
         <p
-          className="text-xs text-text-quaternary mt-1 truncate"
+          className="text-sm text-tertiary mt-1 truncate"
           data-testid="kpi-description"
         >
           {description}

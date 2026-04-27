@@ -39,9 +39,9 @@ const PADDING_CLASS_MAP: Record<NonNullable<ContainerProps['padding']>, string> 
 };
 
 const BACKGROUND_CLASS_MAP: Record<NonNullable<ContainerProps['background']>, string> = {
-  primary: 'bg-bg-primary',
-  secondary: 'bg-bg-secondary',
-  tertiary: 'bg-bg-tertiary',
+  primary: 'bg-primary',
+  secondary: 'bg-secondary',
+  tertiary: 'bg-tertiary',
   transparent: 'bg-transparent',
 };
 
@@ -138,7 +138,7 @@ export function Container(props: ContainerProps): ReactNode {
 
   // Border
   if (border === true) {
-    classes.push('border border-border-secondary');
+    classes.push('ring-1 ring-secondary shadow-xs');
   }
 
   // Border radius

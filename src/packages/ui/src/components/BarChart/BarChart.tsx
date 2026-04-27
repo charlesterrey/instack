@@ -34,31 +34,40 @@ export interface BarChartProps {
   loading?: boolean;
 }
 
-/** Brand-aligned default colour palette. */
+/**
+ * Untitled UI design-token hex values used for chart fills.
+ * These map to the @theme tokens defined in theme.css:
+ *   brand-500, success-500, warning-500, error-500, gray-400
+ */
 const DEFAULT_COLORS: readonly string[] = [
-  '#2970FF', // brand
-  '#17B26A', // success
-  '#F79009', // warning
-  '#F04438', // error
-  '#667085', // gray
+  '#2970FF', // brand-500
+  '#17B26A', // utility-green-500 (success-500)
+  '#F79009', // utility-yellow-500 (warning-500)
+  '#F04438', // utility-red-500 (error-500)
+  '#98A2B3', // neutral-400 (gray-400)
 ] as const;
+
+/** Untitled UI semantic hex values for axis / grid / tooltip text. */
+const TOKENS = {
+  textPrimary: '#101828',   // gray-900 — text-primary
+  textSecondary: '#344054', // gray-700 — text-secondary
+  textTertiary: '#475467',  // gray-600 — text-tertiary
+  textQuaternary: '#667085', // gray-500 — text-quaternary
+  borderSecondary: '#EAECF0', // gray-200 — border-secondary
+  bgPrimary: '#FFFFFF',
+  bgTertiary: '#F2F4F7',    // gray-100
+} as const;
 
 /**
  * Skeleton placeholder rendered while chart data is loading.
- * Uses CSS animation for a pulsing effect.
+ * Uses Untitled UI token classes: bg-tertiary, animate-pulse, rounded.
  */
 function BarChartSkeleton({ height }: { height: number }): ReactNode {
   return (
     <div
       data-testid="bar-chart-skeleton"
-      style={{
-        width: '100%',
-        height,
-        borderRadius: 8,
-        background: 'linear-gradient(90deg, #F2F4F7 25%, #E4E7EC 50%, #F2F4F7 75%)',
-        backgroundSize: '200% 100%',
-        animation: 'shimmer 1.5s ease-in-out infinite',
-      }}
+      className="bg-tertiary animate-pulse rounded"
+      style={{ width: '100%', height }}
       aria-busy="true"
       aria-label="Chargement du graphique"
     />
@@ -67,22 +76,27 @@ function BarChartSkeleton({ height }: { height: number }): ReactNode {
 
 /**
  * Empty-state placeholder when no data is available.
+ * Uses Untitled UI token classes: text-sm text-tertiary, centered.
  */
 function BarChartEmpty(): ReactNode {
   return (
     <div
       data-testid="bar-chart-empty"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-        height: '100%',
-        minHeight: 120,
-        color: '#667085',
-        fontSize: 14,
-      }}
+      className="flex items-center justify-center w-full text-sm text-tertiary"
+      style={{ minHeight: 120 }}
     >
+      <svg
+        className="mr-2 text-quaternary"
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        aria-hidden="true"
+      >
+        <rect x="1" y="8" width="3" height="6" rx="0.5" fill="currentColor" opacity="0.5" />
+        <rect x="6" y="5" width="3" height="9" rx="0.5" fill="currentColor" opacity="0.35" />
+        <rect x="11" y="2" width="3" height="12" rx="0.5" fill="currentColor" opacity="0.2" />
+      </svg>
       Pas de donn&#233;es
     </div>
   );
@@ -90,6 +104,8 @@ function BarChartEmpty(): ReactNode {
 
 /**
  * Custom tooltip rendered on bar hover.
+ * Styled with Untitled UI card-like tokens:
+ *   bg-primary shadow-lg ring-1 ring-secondary rounded-lg p-3
  */
 interface CustomTooltipProps {
   active?: boolean;
@@ -109,35 +125,18 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps): ReactNod
   return (
     <div
       data-testid="bar-chart-tooltip"
-      style={{
-        background: '#FFFFFF',
-        border: '1px solid #E4E7EC',
-        borderRadius: 8,
-        padding: '8px 12px',
-        boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
-        fontSize: 13,
-      }}
+      className="bg-primary shadow-lg ring-1 ring-secondary rounded-lg p-3"
     >
-      <p style={{ margin: 0, fontWeight: 600, color: '#344054' }}>{label}</p>
+      <p className="m-0 text-sm font-semibold text-secondary">{label}</p>
       {payload.map((entry) => (
         <p
           key={entry.name}
-          style={{
-            margin: '4px 0 0',
-            color: entry.color,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6,
-          }}
+          className="mt-1 mb-0 flex items-center gap-1.5 text-sm"
+          style={{ color: entry.color }}
         >
           <span
-            style={{
-              display: 'inline-block',
-              width: 8,
-              height: 8,
-              borderRadius: '50%',
-              backgroundColor: entry.color,
-            }}
+            className="inline-block size-2 rounded-full"
+            style={{ backgroundColor: entry.color }}
           />
           {entry.name}:&nbsp;
           <strong>{typeof entry.value === 'number' ? entry.value.toLocaleString('fr-FR') : entry.value}</strong>
@@ -152,6 +151,9 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps): ReactNod
  *
  * Supports vertical/horizontal layout, stacked/grouped modes,
  * multiple Y series, optional legend/grid, loading and empty states.
+ *
+ * Styled with Untitled UI design tokens via Tailwind CSS v4 classes.
+ * When a title is provided the chart is wrapped in a card container.
  */
 export function BarChart({
   id,
@@ -168,27 +170,14 @@ export function BarChart({
   loading = false,
 }: BarChartProps): ReactNode {
   const palette = colors ?? DEFAULT_COLORS;
+  const hasTitle = title != null && title.length > 0;
 
   const ariaLabel = title
     ? `Graphique en barres : ${title}`
     : `Graphique en barres avec ${String(yKeys.length)} s${yKeys.length > 1 ? 'eries' : 'erie'}`;
 
-  return (
-    <div data-component="BarChart" data-id={id}>
-      {title != null && title.length > 0 && (
-        <h3
-          data-testid="bar-chart-title"
-          style={{
-            margin: '0 0 12px',
-            fontSize: 16,
-            fontWeight: 600,
-            color: '#101828',
-          }}
-        >
-          {title}
-        </h3>
-      )}
-
+  const chartContent = (
+    <>
       {loading ? (
         <BarChartSkeleton height={height} />
       ) : data.length === 0 ? (
@@ -208,9 +197,9 @@ export function BarChart({
               {showGrid && (
                 <CartesianGrid
                   strokeDasharray="3 3"
-                  stroke="#E4E7EC"
+                  stroke={TOKENS.borderSecondary}
                   vertical={!horizontal}
-                  horizontal={!horizontal ? true : false}
+                  horizontal={!horizontal}
                 />
               )}
 
@@ -219,14 +208,14 @@ export function BarChart({
                   <YAxis
                     dataKey={xKey}
                     type="category"
-                    tick={{ fontSize: 12, fill: '#667085' }}
+                    tick={{ fontSize: 12, fill: TOKENS.textQuaternary }}
                     axisLine={false}
                     tickLine={false}
                     width={80}
                   />
                   <XAxis
                     type="number"
-                    tick={{ fontSize: 12, fill: '#667085' }}
+                    tick={{ fontSize: 12, fill: TOKENS.textQuaternary }}
                     axisLine={false}
                     tickLine={false}
                   />
@@ -235,12 +224,12 @@ export function BarChart({
                 <>
                   <XAxis
                     dataKey={xKey}
-                    tick={{ fontSize: 12, fill: '#667085' }}
+                    tick={{ fontSize: 12, fill: TOKENS.textQuaternary }}
                     axisLine={false}
                     tickLine={false}
                   />
                   <YAxis
-                    tick={{ fontSize: 12, fill: '#667085' }}
+                    tick={{ fontSize: 12, fill: TOKENS.textQuaternary }}
                     axisLine={false}
                     tickLine={false}
                     width={60}
@@ -256,7 +245,7 @@ export function BarChart({
                   height={36}
                   iconType="circle"
                   iconSize={8}
-                  wrapperStyle={{ fontSize: 12, color: '#667085' }}
+                  wrapperStyle={{ fontSize: 12, color: TOKENS.textQuaternary }}
                 />
               )}
 
@@ -283,6 +272,34 @@ export function BarChart({
           </ResponsiveContainer>
         </div>
       )}
+    </>
+  );
+
+  if (hasTitle) {
+    return (
+      <div
+        data-component="BarChart"
+        data-id={id}
+        className="rounded-xl bg-primary shadow-xs ring-1 ring-secondary"
+      >
+        <div className="px-6 py-5 border-b border-secondary">
+          <h3
+            data-testid="bar-chart-title"
+            className="m-0 text-md font-semibold text-primary"
+          >
+            {title}
+          </h3>
+        </div>
+        <div className="p-6">
+          {chartContent}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div data-component="BarChart" data-id={id}>
+      {chartContent}
     </div>
   );
 }

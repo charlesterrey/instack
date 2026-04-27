@@ -87,9 +87,9 @@ describe('Container', () => {
 
   it('applies background classes for all variants', () => {
     const backgrounds: Array<{ bg: 'primary' | 'secondary' | 'tertiary' | 'transparent'; cls: string }> = [
-      { bg: 'primary', cls: 'bg-bg-primary' },
-      { bg: 'secondary', cls: 'bg-bg-secondary' },
-      { bg: 'tertiary', cls: 'bg-bg-tertiary' },
+      { bg: 'primary', cls: 'bg-primary' },
+      { bg: 'secondary', cls: 'bg-secondary' },
+      { bg: 'tertiary', cls: 'bg-tertiary' },
       { bg: 'transparent', cls: 'bg-transparent' },
     ];
     for (const { bg, cls } of backgrounds) {
@@ -98,18 +98,21 @@ describe('Container', () => {
     }
   });
 
-  it('applies border classes when border is true', () => {
+  it('applies ring and shadow classes when border is true', () => {
     const el = renderAndGet(makeProps({ border: true }));
-    expect(el.className).toContain('border');
-    expect(el.className).toContain('border-border-secondary');
+    expect(el.className).toContain('ring-1');
+    expect(el.className).toContain('ring-secondary');
+    expect(el.className).toContain('shadow-xs');
   });
 
-  it('does not apply border classes when border is false or omitted', () => {
+  it('does not apply ring or shadow classes when border is false or omitted', () => {
     const el = renderAndGet(makeProps({ border: false }));
-    expect(el.className).not.toContain('border-border-secondary');
+    expect(el.className).not.toContain('ring-secondary');
+    expect(el.className).not.toContain('shadow-xs');
 
     const el2 = renderAndGet(makeProps({ id: 'no-border' }));
-    expect(el2.className).not.toContain('border-border-secondary');
+    expect(el2.className).not.toContain('ring-secondary');
+    expect(el2.className).not.toContain('shadow-xs');
   });
 
   it('applies borderRadius classes correctly', () => {
@@ -194,8 +197,10 @@ describe('Container', () => {
     expect(el.className).toContain('sm:grid-cols-4');
     expect(el.className).toContain('gap-8');
     expect(el.className).toContain('p-6');
-    expect(el.className).toContain('bg-bg-secondary');
-    expect(el.className).toContain('border-border-secondary');
+    expect(el.className).toContain('bg-secondary');
+    expect(el.className).toContain('ring-1');
+    expect(el.className).toContain('ring-secondary');
+    expect(el.className).toContain('shadow-xs');
     expect(el.className).toContain('rounded-lg');
   });
 });

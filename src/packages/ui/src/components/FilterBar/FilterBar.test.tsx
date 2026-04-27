@@ -65,6 +65,7 @@ describe('FilterBar', () => {
   afterEach(() => {
     cleanup();
   });
+
   // --- 1. Render select filter ---
   it('renders a select filter with all options', () => {
     const props = buildProps({ filters: [SELECT_FILTER] });
@@ -110,19 +111,36 @@ describe('FilterBar', () => {
   });
 
   // --- 4. Render toggle filter ---
-  it('renders a toggle filter as a checkbox switch', () => {
+  it('renders a toggle filter as a switch button', () => {
     const props = buildProps({
       filters: [TOGGLE_FILTER],
       values: { archived: true },
     });
     render(<FilterBar {...props} />);
 
-    const checkbox = screen.getByRole('switch') as HTMLInputElement;
-    expect(checkbox.checked).toBe(true);
+    const toggle = screen.getByRole('switch');
+    expect(toggle.getAttribute('aria-checked')).toBe('true');
     expect(screen.getByText('Activé')).toBeDefined();
   });
 
-  // --- 5. Render multi_select filter ---
+  // --- 5. Toggle filter calls onChange when clicked ---
+  it('calls onChange when toggle switch is clicked', () => {
+    const onChange = vi.fn();
+    const props = buildProps({
+      filters: [TOGGLE_FILTER],
+      values: { archived: false },
+      onChange,
+    });
+    render(<FilterBar {...props} />);
+
+    const toggle = screen.getByRole('switch');
+    expect(toggle.getAttribute('aria-checked')).toBe('false');
+
+    fireEvent.click(toggle);
+    expect(onChange).toHaveBeenCalledWith('archived', true);
+  });
+
+  // --- 6. Render multi_select filter ---
   it('renders a multi_select filter with dropdown checkboxes', () => {
     const props = buildProps({
       filters: [MULTI_SELECT_FILTER],
@@ -145,7 +163,7 @@ describe('FilterBar', () => {
     expect(checkboxes.length).toBe(3);
   });
 
-  // --- 6. Reset button calls onReset ---
+  // --- 7. Reset button calls onReset ---
   it('renders a reset button that calls onReset when clicked', () => {
     const onReset = vi.fn();
     const props = buildProps({
@@ -161,7 +179,7 @@ describe('FilterBar', () => {
     expect(onReset).toHaveBeenCalledTimes(1);
   });
 
-  // --- 7. Badge shows active filters count ---
+  // --- 8. Badge shows active filters count ---
   it('displays a badge with the count of active filters', () => {
     const props = buildProps({
       filters: [SELECT_FILTER, SEARCH_FILTER, TOGGLE_FILTER],
@@ -173,7 +191,22 @@ describe('FilterBar', () => {
     expect(badge.textContent).toBe('2');
   });
 
-  // --- 8. onChange called with correct key and value ---
+  // --- 9. Badge uses Untitled UI utility-brand token classes ---
+  it('applies Untitled UI badge classes to the active filter badge', () => {
+    const props = buildProps({
+      filters: [SELECT_FILTER],
+      values: { status: 'active' },
+    });
+    render(<FilterBar {...props} />);
+
+    const badge = screen.getByTestId('active-filter-badge');
+    expect(badge.className).toContain('bg-utility-brand-50');
+    expect(badge.className).toContain('text-utility-brand-700');
+    expect(badge.className).toContain('ring-utility-brand-200');
+    expect(badge.className).toContain('rounded-full');
+  });
+
+  // --- 10. onChange called with correct key and value ---
   it('calls onChange with the correct filter key and value when a select changes', () => {
     const onChange = vi.fn();
     const props = buildProps({
@@ -190,7 +223,7 @@ describe('FilterBar', () => {
     expect(onChange).toHaveBeenCalledWith('status', 'active');
   });
 
-  // --- 9. onChange called for search input ---
+  // --- 11. onChange called for search input ---
   it('calls onChange with the correct key when typing in a search filter', () => {
     const onChange = vi.fn();
     const props = buildProps({
@@ -206,20 +239,21 @@ describe('FilterBar', () => {
     expect(onChange).toHaveBeenCalledWith('query', 'test');
   });
 
-  // --- 10. Horizontal layout (default) ---
-  it('renders in horizontal layout by default with flex-row', () => {
+  // --- 12. Horizontal layout (default) ---
+  it('renders in horizontal layout by default with flex-wrap', () => {
     const props = buildProps({ filters: [SELECT_FILTER] });
     render(<FilterBar {...props} />);
 
     const container = screen.getByRole('search');
     expect(container.getAttribute('data-layout')).toBe('horizontal');
 
-    // The inner flex container should use flex-row
+    // The inner flex container should use items-center and flex-wrap
     const innerDiv = container.firstElementChild as HTMLElement;
-    expect(innerDiv.className).toContain('flex-row');
+    expect(innerDiv.className).toContain('items-center');
+    expect(innerDiv.className).toContain('flex-wrap');
   });
 
-  // --- 11. Vertical layout ---
+  // --- 13. Vertical layout ---
   it('renders in vertical layout with flex-col when layout is vertical', () => {
     const props = buildProps({
       filters: [SELECT_FILTER],
@@ -234,7 +268,7 @@ describe('FilterBar', () => {
     expect(innerDiv.className).toContain('flex-col');
   });
 
-  // --- 12. No badge when no active filters ---
+  // --- 14. No badge when no active filters ---
   it('does not display a badge when there are no active filters', () => {
     const props = buildProps({
       filters: [SELECT_FILTER],
@@ -244,5 +278,65 @@ describe('FilterBar', () => {
 
     const badge = screen.queryByTestId('active-filter-badge');
     expect(badge).toBeNull();
+  });
+
+  // --- 15. Reset button uses Untitled UI brand-secondary text ---
+  it('applies Untitled UI brand-secondary text classes to the reset button', () => {
+    const onReset = vi.fn();
+    const props = buildProps({
+      filters: [SELECT_FILTER],
+      onReset,
+    });
+    render(<FilterBar {...props} />);
+
+    const resetButton = screen.getByTestId('filter-reset-button');
+    expect(resetButton.className).toContain('text-brand-secondary');
+    expect(resetButton.className).toContain('font-semibold');
+  });
+
+  // --- 16. Search input uses ring-based styling (Untitled UI pattern) ---
+  it('uses Untitled UI ring-based input styling instead of border', () => {
+    const props = buildProps({ filters: [SEARCH_FILTER] });
+    render(<FilterBar {...props} />);
+
+    const input = screen.getByPlaceholderText('Rechercher...');
+    expect(input.className).toContain('ring-1');
+    expect(input.className).toContain('ring-primary');
+    expect(input.className).toContain('bg-primary');
+    expect(input.className).toContain('shadow-xs');
+    expect(input.className).not.toContain('border');
+  });
+
+  // --- 17. Search icon uses fg-quaternary color ---
+  it('renders the search icon with text-fg-quaternary class', () => {
+    const props = buildProps({ filters: [SEARCH_FILTER] });
+    render(<FilterBar {...props} />);
+
+    const svg = document.querySelector('[data-filter-type="search"] svg');
+    expect(svg).not.toBeNull();
+    expect(svg?.getAttribute('class')).toContain('text-fg-quaternary');
+  });
+
+  // --- 18. Labels use text-sm font-medium text-secondary ---
+  it('applies Untitled UI label classes to filter labels', () => {
+    const props = buildProps({ filters: [SELECT_FILTER] });
+    render(<FilterBar {...props} />);
+
+    const label = screen.getByText('Statut');
+    expect(label.className).toContain('text-sm');
+    expect(label.className).toContain('font-medium');
+    expect(label.className).toContain('text-secondary');
+  });
+
+  // --- 19. Container uses ring instead of border ---
+  it('uses Untitled UI ring-based container styling', () => {
+    const props = buildProps({ filters: [SELECT_FILTER] });
+    render(<FilterBar {...props} />);
+
+    const container = screen.getByRole('search');
+    expect(container.className).toContain('ring-1');
+    expect(container.className).toContain('ring-primary');
+    expect(container.className).toContain('bg-primary');
+    expect(container.className).not.toContain('border');
   });
 });

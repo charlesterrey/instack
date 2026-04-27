@@ -100,14 +100,14 @@ describe('KPICard', () => {
     const el = render({ id: 'sm', title: 'Test', value: 100, size: 'sm' });
     const props = (el as unknown as Record<string, unknown>).props as Record<string, unknown>;
     const className = props.className as string;
-    expect(className).toContain('p-3');
+    expect(className).toContain('p-4');
   });
 
   it('renders with md size variant (default)', () => {
     const el = render({ id: 'md', title: 'Test', value: 100 });
     const props = (el as unknown as Record<string, unknown>).props as Record<string, unknown>;
     const className = props.className as string;
-    expect(className).toContain('p-4');
+    expect(className).toContain('p-5');
   });
 
   it('renders with lg size variant', () => {

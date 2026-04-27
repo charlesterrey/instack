@@ -31,12 +31,12 @@ export class ComponentErrorBoundary extends Component<Props, State> {
       return (
         <div
           data-component-error={this.props.componentId}
-          className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700"
+          className="rounded-lg bg-utility-red-50 p-4 text-sm text-utility-red-700 ring-1 ring-utility-red-200 ring-inset"
         >
           <p className="font-medium">
             Erreur dans le composant {this.props.componentType}
           </p>
-          <p className="mt-1 text-xs text-red-500">
+          <p className="mt-1 text-xs text-utility-red-500">
             {this.state.error?.message ?? 'Erreur inconnue'}
           </p>
         </div>
