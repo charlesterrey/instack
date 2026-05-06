@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { AppCard } from '../../components/AppCard/AppCard';
+import { track, EVENTS } from '../../lib/analytics';
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -97,6 +98,10 @@ export function DashboardPage(): React.ReactNode {
   const isSandbox = user?.email === 'demo@sandbox.instack.io';
 
   const firstName = user?.name?.split(' ')[0] ?? 'utilisateur';
+
+  useEffect(() => {
+    track(EVENTS.PAGE_VIEWED, { page_name: 'dashboard' });
+  }, []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -200,7 +205,14 @@ export function DashboardPage(): React.ReactNode {
           {!isLoading && !error && apps.length > 0 && (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {apps.map((app) => (
-                <AppCard key={app.id} app={app} sandbox={isSandbox} />
+                <div
+                  key={app.id}
+                  onClick={() => { track(EVENTS.APP_VIEWED, { app_id: app.id, archetype: app.archetype }); }}
+                  onKeyDown={() => undefined}
+                  role="presentation"
+                >
+                  <AppCard app={app} sandbox={isSandbox} />
+                </div>
               ))}
             </div>
           )}

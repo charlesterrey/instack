@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
+import { track, EVENTS } from '../../lib/analytics';
 
 export function LoginPage() {
   const { login, isAuthenticated } = useAuth();
@@ -14,6 +15,7 @@ export function LoginPage() {
   async function handleSandboxLogin(): Promise<void> {
     setSandboxLoading(true);
     setSandboxError(null);
+    track(EVENTS.SANDBOX_STARTED);
 
     try {
       const res = await fetch('/api/sandbox', {
@@ -26,9 +28,11 @@ export function LoginPage() {
         throw new Error(text || `Erreur ${res.status}`);
       }
 
+      track(EVENTS.AUTH_LOGIN_COMPLETED, { method: 'sandbox' });
       window.location.href = '/create';
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Erreur inconnue';
+      track(EVENTS.AUTH_LOGIN_FAILED, { error: msg });
       setSandboxError(msg);
     } finally {
       setSandboxLoading(false);
@@ -47,7 +51,7 @@ export function LoginPage() {
 
         <button
           type="button"
-          onClick={() => login()}
+          onClick={() => { track(EVENTS.AUTH_LOGIN_STARTED, { method: 'microsoft' }); login(); }}
           className="flex w-full items-center justify-center gap-3 rounded-lg border border-border-primary bg-bg-primary px-4 py-2.5 text-sm font-semibold text-text-primary shadow-xs transition-colors hover:bg-bg-secondary"
         >
           <svg className="h-5 w-5" viewBox="0 0 21 21" fill="none">

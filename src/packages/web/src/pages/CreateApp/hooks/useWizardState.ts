@@ -11,6 +11,7 @@
 
 import { useState, useCallback, useRef } from 'react';
 import { api } from '../../../api/client';
+import { track, EVENTS } from '../../../lib/analytics';
 
 // ═══════════════════════════════════════════════════════════════════
 // Types
@@ -119,7 +120,10 @@ export function useWizardState(): WizardState & WizardActions {
   }, []);
 
   const goToStep = useCallback((step: WizardStep) => {
-    setState((prev) => ({ ...prev, step }));
+    setState((prev) => {
+      track(EVENTS.WIZARD_STEP_COMPLETED, { from_step: prev.step, to_step: step });
+      return { ...prev, step };
+    });
   }, []);
 
   const goBack = useCallback(() => {
@@ -143,6 +147,13 @@ export function useWizardState(): WizardState & WizardActions {
 
   const runPipeline = useCallback(async () => {
     clearStageTimer();
+
+    track(EVENTS.GENERATION_STARTED, {
+      prompt_length: state.prompt.length,
+      has_data: !!state.selectedDatasetId,
+    });
+
+    const pipelineStartMs = Date.now();
 
     setState((prev) => ({
       ...prev,
@@ -174,16 +185,31 @@ export function useWizardState(): WizardState & WizardActions {
       clearStageTimer();
 
       if (response.error) {
+        const errorMessage = response.error?.message ?? 'Une erreur est survenue lors de la generation.';
+        track(EVENTS.GENERATION_FAILED, {
+          error_code: errorMessage,
+          total_latency_ms: Date.now() - pipelineStartMs,
+        });
         setState((prev) => ({
           ...prev,
           isGenerating: false,
-          pipelineError: response.error?.message ?? 'Une erreur est survenue lors de la generation.',
+          pipelineError: errorMessage,
           pipelineStage: 4,
         }));
         return;
       }
 
       const result = response.data ?? null;
+      const archetype = (result?.appSchema?.['archetype'] as string) ?? 'unknown';
+      const componentCount = Array.isArray(result?.appSchema?.['components'])
+        ? (result.appSchema['components'] as unknown[]).length
+        : 0;
+
+      track(EVENTS.GENERATION_COMPLETED, {
+        archetype,
+        total_latency_ms: Date.now() - pipelineStartMs,
+        component_count: componentCount,
+      });
 
       setState((prev) => ({
         ...prev,
@@ -200,6 +226,10 @@ export function useWizardState(): WizardState & WizardActions {
       }, POST_SUCCESS_DELAY_MS);
     } catch {
       clearStageTimer();
+      track(EVENTS.GENERATION_FAILED, {
+        error_code: 'network_error',
+        total_latency_ms: Date.now() - pipelineStartMs,
+      });
       setState((prev) => ({
         ...prev,
         isGenerating: false,
@@ -210,6 +240,7 @@ export function useWizardState(): WizardState & WizardActions {
   }, [state.prompt, state.selectedDatasetId, clearStageTimer]);
 
   const retryPipeline = useCallback(async () => {
+    track(EVENTS.GENERATION_RETRIED);
     await runPipeline();
   }, [runPipeline]);
 
@@ -235,6 +266,13 @@ export function useWizardState(): WizardState & WizardActions {
       if (response.error) {
         return null;
       }
+
+      track(EVENTS.APP_CREATED, {
+        app_id: response.data?.id,
+        archetype,
+        visibility: state.appVisibility,
+        is_draft: asDraft,
+      });
 
       return response.data?.id ?? null;
     } catch {
