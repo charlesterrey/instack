@@ -14,6 +14,7 @@ import { Hono } from 'hono';
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
 import { classifyIntent, inferSchema, parseExcelBuffer, executePreview, executePipeline } from '@instack/ai-pipeline';
+import { getDemoData } from '../services/sandbox.service';
 
 const classifyBodySchema = z.object({
   prompt: z.string().min(1).max(2000),
@@ -27,6 +28,7 @@ const previewBodySchema = z.object({
 const generateFullBodySchema = z.object({
   prompt: z.string().min(1).max(2000),
   dataSourceId: z.string().uuid().optional(),
+  demoDatasetId: z.string().optional(),
 });
 
 const retryBodySchema = z.object({
@@ -150,15 +152,25 @@ generationRoutes.post(
   zValidator('json', generateFullBodySchema),
   async (c) => {
     const auth = c.get('auth');
-    const { prompt } = c.req.valid('json');
+    const { prompt, demoDatasetId } = c.req.valid('json');
     const apiKey = (c.env as Record<string, unknown>)['ANTHROPIC_API_KEY'];
 
     if (typeof apiKey !== 'string') {
       return c.json({ error: { message: 'AI pipeline not configured', status: 500 } }, 500);
     }
 
+    // If a demo dataset is specified, load it and pass as excelData
+    let excelData: import('@instack/ai-pipeline').ExcelSheet | undefined;
+    if (demoDatasetId) {
+      const dataset = getDemoData(demoDatasetId);
+      if (!dataset) {
+        return c.json({ error: { message: 'Demo dataset not found', status: 404 } }, 404);
+      }
+      excelData = dataset.data;
+    }
+
     const result = await executePipeline(
-      { userPrompt: prompt, tenantId: auth.tenantId, userId: auth.userId },
+      { userPrompt: prompt, tenantId: auth.tenantId, userId: auth.userId, excelData },
       { anthropicApiKey: apiKey },
     );
 

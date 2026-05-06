@@ -12,6 +12,7 @@ import { eq, and, ne } from 'drizzle-orm';
 import * as schema from '../../drizzle/schema';
 import { syncDataSource } from '../services/sync-engine.service';
 import { proxyGraphCall } from '../services/token-proxy.service';
+import { cleanupExpiredSandboxes } from '../services/sandbox.service';
 import { logger } from '../lib/logger';
 import type { KVNamespace } from '../services/data-cache.service';
 
@@ -77,6 +78,15 @@ export async function handleScheduled(
     tenantId: env.MICROSOFT_TENANT_ID ?? 'common',
     redirectUri: `${env.API_BASE_URL ?? 'http://localhost:8787'}/api/auth/callback`,
   };
+
+  // Cleanup expired sandbox tenants (non-blocking)
+  ctx.waitUntil(
+    cleanupExpiredSandboxes(db).then((result) => {
+      if (result.deleted > 0) {
+        logger.info('sync-scheduler: sandbox cleanup', { deleted: result.deleted });
+      }
+    }),
+  );
 
   try {
     // Fetch active data sources that are not already syncing, not in error, not disconnected

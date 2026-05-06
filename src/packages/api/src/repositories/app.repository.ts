@@ -72,9 +72,18 @@ export async function createApp(
     name: string;
     description?: string | null;
     archetype: string;
+    schemaJson?: Record<string, unknown>;
   },
 ) {
   const archetypeValue = data.archetype as typeof apps.archetype.enumValues[number];
+  const defaultSchema = {
+    id: '',
+    name: data.name,
+    archetype: data.archetype,
+    layout: { type: 'single_page' },
+    components: [],
+    dataBindings: [],
+  };
   const rows = await db
     .insert(apps)
     .values({
@@ -83,14 +92,7 @@ export async function createApp(
       name: data.name,
       description: data.description ?? null,
       archetype: archetypeValue,
-      schemaJson: {
-        id: '',
-        name: data.name,
-        archetype: data.archetype,
-        layout: { type: 'single_page' },
-        components: [],
-        dataBindings: [],
-      },
+      schemaJson: data.schemaJson ?? defaultSchema,
       status: 'draft',
       visibility: 'private',
     })

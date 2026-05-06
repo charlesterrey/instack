@@ -13,6 +13,7 @@ import { dataSourcesRoutes } from './routes/data-sources.routes';
 import { generationRoutes } from './routes/generation.routes';
 import { graphProxyRoutes } from './routes/graph-proxy.routes';
 import { appDataRoutes } from './routes/app-data.routes';
+import { sandboxRoutes } from './routes/sandbox.routes';
 import { handleScheduled } from './cron/sync-scheduler';
 import { logger } from './lib/logger';
 import { validateEnv } from './lib/env';
@@ -70,6 +71,9 @@ app.get('/health', (c) => {
 
 // Auth routes (no auth middleware — these handle login/callback)
 app.route('/api/auth', authRoutes);
+
+// Sandbox routes (no auth middleware — creates its own session)
+app.route('/api/sandbox', sandboxRoutes);
 
 // Protected routes — auth check first (no DB needed)
 app.use('/api/*', authMiddleware);

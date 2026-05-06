@@ -32,6 +32,7 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
     tenantId: result.payload.tid,
     role: result.payload.role,
     email: result.payload.email,
+    ...(result.payload.sandbox ? { sandbox: true } : {}),
   };
 
   c.set('auth', auth);

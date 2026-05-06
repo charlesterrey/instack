@@ -12,6 +12,8 @@ export interface JWTPayload {
   readonly iat: number;
   /** Expiration (unix timestamp) */
   readonly exp: number;
+  /** Sandbox session flag */
+  readonly sandbox?: boolean;
 }
 
 /** OAuth 2.0 state parameter for CSRF protection */
@@ -58,6 +60,7 @@ export interface AuthContext {
   readonly tenantId: string;
   readonly role: 'admin' | 'creator' | 'viewer';
   readonly email: string;
+  readonly sandbox?: boolean;
 }
 
 /** Graph API proxy request */

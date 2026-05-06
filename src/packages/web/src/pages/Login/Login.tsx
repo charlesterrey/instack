@@ -1,11 +1,38 @@
+import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 
 export function LoginPage() {
   const { login, isAuthenticated } = useAuth();
+  const [sandboxLoading, setSandboxLoading] = useState<boolean>(false);
+  const [sandboxError, setSandboxError] = useState<string | null>(null);
 
   if (isAuthenticated) {
     window.location.href = '/';
     return null;
+  }
+
+  async function handleSandboxLogin(): Promise<void> {
+    setSandboxLoading(true);
+    setSandboxError(null);
+
+    try {
+      const res = await fetch('/api/sandbox', {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      if (!res.ok) {
+        const text = await res.text().catch(() => '');
+        throw new Error(text || `Erreur ${res.status}`);
+      }
+
+      window.location.href = '/create';
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Erreur inconnue';
+      setSandboxError(msg);
+    } finally {
+      setSandboxLoading(false);
+    }
   }
 
   return (
@@ -31,6 +58,22 @@ export function LoginPage() {
           </svg>
           Se connecter avec Microsoft
         </button>
+
+        {/* Sandbox / demo button */}
+        <button
+          type="button"
+          onClick={() => void handleSandboxLogin()}
+          disabled={sandboxLoading}
+          className="mt-3 flex w-full items-center justify-center rounded-lg border border-border-secondary bg-bg-primary px-4 py-2.5 text-sm font-semibold text-text-secondary shadow-xs transition-colors hover:bg-bg-secondary disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {sandboxLoading ? 'Chargement...' : 'Tester sans compte Microsoft'}
+        </button>
+
+        {sandboxError && (
+          <p className="mt-3 text-center text-xs text-utility-red-600">
+            {sandboxError}
+          </p>
+        )}
 
         <p className="mt-6 text-center text-xs text-text-tertiary">
           Connectez-vous avec votre compte Microsoft 365 professionnel.

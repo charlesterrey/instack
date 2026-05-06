@@ -49,18 +49,22 @@ export interface CreateJWTOptions {
   tenantId: string;
   role: 'admin' | 'creator' | 'viewer';
   email: string;
+  sandbox?: boolean;
+  expirySeconds?: number;
 }
 
 /** Create a signed JWT session token */
 export async function createJWT(options: CreateJWTOptions, secret: string): Promise<string> {
   const now = Math.floor(Date.now() / 1000);
+  const expiry = options.expirySeconds ?? TOKEN_EXPIRY_SECONDS;
   const payload: JWTPayload = {
     sub: options.userId,
     tid: options.tenantId,
     role: options.role,
     email: options.email,
     iat: now,
-    exp: now + TOKEN_EXPIRY_SECONDS,
+    exp: now + expiry,
+    ...(options.sandbox ? { sandbox: true } : {}),
   };
 
   const headerEncoded = encodeJson(HEADER);

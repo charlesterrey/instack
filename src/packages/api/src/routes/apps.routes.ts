@@ -138,6 +138,11 @@ appsRoutes.post(
     const appId = c.req.param('id');
     const { visibility } = c.req.valid('json');
 
+    // Sandbox users cannot share apps
+    if (auth.sandbox) {
+      return c.json({ error: { message: 'Sandbox users cannot share apps', status: 403 } }, 403);
+    }
+
     const result = await appService.updateApp(db, auth, appId, { visibility });
 
     if (!result.ok) {
